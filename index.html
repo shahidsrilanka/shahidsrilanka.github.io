@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScienceTopper – Grade 10 & 11 Science · Sri Lanka</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "02c55468-b8d9-448d-993e-59c5437d36ec",
+    });
+  });
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--surface:#161b24;--card:#1c2333;--card2:#1a2235;
+  --border:#252f43;--border2:#2e3f5c;
+  --text:#e8edf5;--muted:#8892a4;--dim:#4a5a72;
+  --primary:#4f9cf9;--primary-dark:#2563eb;--pglow:rgba(79,156,249,.15);
+  --green:#22c55e;--gl:rgba(34,197,94,.12);
+  --amber:#f59e0b;--al:rgba(245,158,11,.12);
+  --red:#ef4444;--rl:rgba(239,68,68,.12);
+  --teal:#14b8a6;--tl:rgba(20,184,166,.12);
+  --yt:#ff0000;--ytl:rgba(255,0,0,.1);
+  --gr10:#4f9cf9;--gr11:#a78bfa;
+  --physics:#f97316;--chemistry:#22c55e;--biology:#14b8a6;
+  --r:10px;--rs:7px;
+}
+html,body{height:100%;font-family:'Lexend',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* AUTH SCREEN */
+#auth-screen{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+  background-image:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(79,156,249,.08),transparent 70%);
+  padding:20px;z-index:999;overflow-y:auto;
+}
+.auth-box{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:32px 28px;width:100%;max-width:400px}
+.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;justify-content:center}
+.auth-logo-icon{width:48px;height:48px;background:linear-gradient(135deg,#4f9cf9,#a78bfa);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.auth-logo-text{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.auth-logo-text span{color:var(--primary)}
+.auth-tabs{display:flex;background:var(--surface);border-radius:8px;padding:3px;margin-bottom:20px}
+.auth-tab{flex:1;padding:8px;border:none;background:none;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;border-radius:6px;transition:.15s;font-family:'Lexend',sans-serif}
+.auth-tab.active{background:var(--primary);color:#fff}
+.auth-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.auth-sub{font-size:12px;color:var(--muted);margin-bottom:20px}
+.auth-error{background:var(--rl);border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:14px;display:none}
+.auth-success{background:var(--gl);border:1px solid rgba(34,197,94,.3);color:#86efac;border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:14px;display:none}
+
+/* LAYOUT */
+#app{display:none;flex-direction:column;min-height:auto}
+
+/* NAV */
+.topnav{
+  background:rgba(13,17,23,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);height:56px;
+  display:flex;align-items:center;gap:8px;padding:0 16px;
+  position:sticky;top:0;z-index:100;flex-shrink:0;
+}
+.brand{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.brand-icon{width:34px;height:34px;background:linear-gradient(135deg,#4f9cf9,#a78bfa);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.brand-name{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.brand-name span{color:var(--primary)}
+.brand-sub{font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.4px;text-transform:uppercase}
+.nav-links{display:flex;gap:1px;overflow-x:auto;flex:1;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.navbtn{padding:6px 10px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);border-radius:7px;transition:.15s;white-space:nowrap;font-family:'Lexend',sans-serif}
+.navbtn:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.navbtn.active{background:var(--pglow);color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-user{display:flex;align-items:center;gap:7px;padding:5px 10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;cursor:pointer}
+.nav-user-name{font-size:11px;font-weight:600;color:var(--muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--gr11));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0}
+.logout-btn{padding:4px 9px;font-size:11px;font-weight:600;background:var(--rl);color:#fca5a5;border:none;border-radius:6px;cursor:pointer;font-family:'Lexend',sans-serif;transition:.15s}
+.logout-btn:hover{background:rgba(239,68,68,.25)}
+/* NOTIFICATION BELL */
+.notif-bell{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;background:var(--surface);border:1px solid var(--border);transition:.15s;flex-shrink:0}
+.notif-bell:hover{border-color:var(--border2)}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:800;border-radius:10px;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--bg)}
+.notif-panel{position:fixed;top:60px;right:12px;width:320px;max-height:400px;background:var(--card);border:1px solid var(--border2);border-radius:12px;z-index:200;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.4);display:none}
+.notif-panel.open{display:block}
+.notif-item{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:.15s}
+.notif-item:hover{background:rgba(255,255,255,.04)}
+.notif-item:last-child{border-bottom:none}
+.notif-item.unread{border-left:3px solid var(--primary)}
+
+/* PAGE */
+.wrap{max-width:1080px;margin:0 auto;padding:20px 14px;flex:1}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:12px;font-weight:500;z-index:500;transform:translateY(80px);opacity:0;transition:.3s;max-width:280px;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{border-color:rgba(34,197,94,.4);color:var(--green)}
+#toast.err{border-color:rgba(239,68,68,.4);color:#fca5a5}
+
+/* LOADING */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.page-loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);font-size:13px}
+
+/* SECTION HEADER */
+.sec-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:8px;flex-wrap:wrap}
+.sec-hd h2{font-size:19px;font-weight:800;letter-spacing:-.3px}
+.sec-hd p{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:700}
+
+/* STAT */
+.statcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;transition:.2s}
+.statcard:hover{border-color:var(--border2)}
+.stat-ic{font-size:20px;margin-bottom:6px}
+.stat-lbl{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:3px}
+.stat-val{font-size:22px;font-weight:800;line-height:1}
+.stat-sub{font-size:10px;color:var(--dim);margin-top:3px}
+
+/* BTN */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rs);font-size:12px;font-weight:600;cursor:pointer;border:none;transition:.15s;font-family:'Lexend',sans-serif;white-space:nowrap}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover:not(:disabled){background:#3b82f6}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover:not(:disabled){background:#16a34a}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--muted)}.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.06);color:var(--text)}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover:not(:disabled){background:#b91c1c}
+.btn-yt{background:var(--yt);color:#fff}.btn-yt:hover:not(:disabled){background:#cc0000}
+.btn-sm{padding:5px 10px;font-size:11px;border-radius:6px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.b10{background:rgba(79,156,249,.15);color:var(--gr10)}
+.b11{background:rgba(167,139,250,.15);color:var(--gr11)}
+.bon{background:var(--gl);color:var(--green)}
+.boff{background:rgba(255,255,255,.06);color:var(--dim)}
+.bph{background:rgba(249,115,22,.15);color:var(--physics)}
+.bch{background:var(--gl);color:var(--chemistry)}
+.bbi{background:var(--tl);color:var(--teal)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{text-align:left;padding:8px 10px;font-size:10px;font-weight:700;color:var(--dim);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.tbl td{padding:10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+
+/* PROGRESS */
+.prog{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:.7s}
+
+/* BAR CHART */
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.blbl{width:90px;text-align:right;font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.bwrap{flex:1;height:18px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.bbar{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:5px;font-size:9px;font-weight:800;color:rgba(255,255,255,.85);transition:width .8s;min-width:20px}
+.bnum{width:30px;font-size:11px;font-weight:700;flex-shrink:0}
+
+/* FORM */
+.fg{margin-bottom:11px}
+.fl{font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.fc{width:100%;padding:9px 11px;border:1px solid var(--border2);border-radius:var(--rs);font-size:13px;outline:none;background:var(--surface);color:var(--text);transition:.15s;font-family:'Lexend',sans-serif}
+.fc:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,156,249,.12)}
+textarea.fc{resize:vertical;min-height:70px}
+select.fc option{background:var(--surface)}
+
+/* MODAL */
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center;padding:14px}
+.moverlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:22px;width:100%;max-width:480px;max-height:92vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+
+/* FILE CARD */
+.fcard{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;background:var(--card);transition:.2s;margin-bottom:8px}
+.fcard:hover{border-color:var(--primary);background:rgba(79,156,249,.05)}
+.ficon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--surface);flex-shrink:0}
+.fname{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fmeta{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* QUIZ */
+.qopt{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--border2);border-radius:9px;cursor:pointer;margin-bottom:7px;transition:.15s;font-size:12px;font-weight:500}
+.qopt:hover{border-color:var(--primary);background:var(--pglow)}
+.qopt.sel{border-color:var(--primary);background:var(--pglow)}
+.qopt.correct{border-color:var(--green);background:var(--gl)}
+.qopt.wrong{border-color:var(--red);background:var(--rl)}
+.ocircle{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;transition:.15s}
+
+/* YT */
+.yt-hero{background:linear-gradient(135deg,#1a0808,#0d0d12);border:1px solid rgba(255,0,0,.2);border-radius:14px;overflow:hidden;margin-bottom:18px}
+.yt-header{background:rgba(255,0,0,.08);border-bottom:1px solid rgba(255,0,0,.15);padding:14px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.yt-player-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;background:#000;margin-bottom:14px}
+.yt-player-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.yt-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0a;cursor:pointer}
+.yt-placeholder:hover{background:#111}
+.yt-play-btn{width:68px;height:48px;background:var(--yt);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.yt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.yt-thumb{background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:.2s}
+.yt-thumb:hover,.yt-thumb.playing{border-color:var(--yt);transform:translateY(-2px)}
+.yt-thumb.playing{box-shadow:0 0 0 2px rgba(255,0,0,.2)}
+.yt-thumb-img{position:relative;padding-bottom:56.25%;background:#111}
+.yt-thumb-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.yt-thumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);opacity:0;transition:.2s}
+.yt-thumb:hover .yt-thumb-overlay{opacity:1}
+.yt-thumb-info{padding:8px 10px}
+.yt-thumb-title{font-size:11px;font-weight:600;line-height:1.3;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.yt-thumb-meta{font-size:10px;color:var(--muted)}
+
+
+.ch-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px}
+
+
+/* PORTAL */
+.portal-hero{background:linear-gradient(135deg,#0f1624,#111827,#0a0f1e);border:1px solid var(--border2);border-radius:14px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden}
+.portal-hero::after{content:'🔬';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.06}
+
+/* BANNER */
+.banner{border-radius:8px;padding:9px 12px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-bottom:12px;font-weight:500;line-height:1.5}
+.banner-info{background:rgba(79,156,249,.1);border:1px solid rgba(79,156,249,.2);color:#93c5fd}
+.banner-warn{background:var(--al);border:1px solid rgba(245,158,11,.25);color:var(--amber)}
+
+/* COMPARE */
+.cmp-row{display:flex;align-items:center;justify-content:center;gap:20px;padding:14px 0}
+.cmp-box{text-align:center}
+.cmp-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.cmp-val{font-size:28px;font-weight:800;line-height:1}
+.cmp-arr{font-size:28px;font-weight:700}
+.diff-tag{display:inline-flex;align-items:center;padding:5px 14px;border-radius:20px;font-weight:800;font-size:14px;margin-top:10px}
+
+/* ANIM */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fadeUp{animation:fadeUp .25s ease forwards}
+@keyframes shimmer{0%,100%{opacity:.6}50%{opacity:1}}
+.loading-pulse{animation:shimmer 1.5s ease infinite}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty-icon{font-size:36px;margin-bottom:10px;opacity:.5}
+.empty-text{font-size:13px;margin-bottom:14px}
+
+/* MOBILE */
+@media(max-width:600px){
+  .g2,.g3,.g4{grid-template-columns:1fr!important}
+  .yt-grid{grid-template-columns:1fr 1fr!important}
+  .brand-sub{display:none}
+  .navbtn{padding:5px 7px;font-size:11px}
+  .topnav{gap:5px;padding:0 10px}
+  .wrap{padding:14px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">🔬</div>
+      <div>
+        <div class="auth-logo-text">Science<span>Topper</span></div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:1px">Grade 10 & 11 · Sri Lanka</div>
+      </div>
+    </div>
+
+    <!-- Role tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="setAuthRole('student')">Student</button>
+      <button class="auth-tab" onclick="setAuthRole('teacher')">Teacher</button>
+    </div>
+
+    <div id="auth-error" class="auth-error"></div>
+    <div id="auth-success" class="auth-success"></div>
+
+    <!-- LOGIN FORM -->
+    <div id="login-form">
+      <div class="auth-title" id="login-title">Student Login</div>
+      <div class="auth-sub" id="login-sub">Enter your email and password</div>
+      <div class="fg"><label class="fl">Email</label><input class="fc" id="login-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="fg"><label class="fl">Password</label><input class="fc" id="login-password" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:13px" onclick="doLogin()" id="login-btn">Sign In</button>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signup-form" style="display:none">
+      <div class="auth-title" id="signup-title">Create Account</div>
+      <div class="auth-sub">Register for ScienceTopper</div>
+      <div class="fg"><label class="fl">Full Name</label><input class="fc" id="signup-name" type="text" placeholder="e.g. Kavindi Perera"></div>
+      <div class="fg"><label class="fl">Email</label><input class="fc" id="signup-email" type="email" placeholder="your@email.com"></div>
+      <div class="fg"><label class="fl">Password (min 6 chars)</label><input class="fc" id="signup-password" type="password" placeholder="••••••••"></div>
+      <div class="fg" id="grade-field"><label class="fl">Grade</label>
+        <select class="fc" id="signup-grade"><option value="10">Grade 10</option><option value="11">Grade 11</option></select></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:13px" onclick="doSignup()" id="signup-btn">Create Account</button>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">
+        Have account? <span style="color:var(--primary);cursor:pointer;font-weight:600" onclick="showLogin()">Sign In</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════ -->
+<div id="app">
+  <!-- NAV -->
+  <nav class="topnav">
+    <div class="brand">
+      <div class="brand-icon">🔬</div>
+      <div>
+        <div class="brand-name">Science<span>Topper</span></div>
+        <div class="brand-sub">Grade 10 & 11 · Sri Lanka</div>
+      </div>
+    </div>
+    <div class="nav-links" id="nav-links"></div>
+    <div class="nav-right">
+      <div class="notif-bell" id="notif-bell" onclick="toggleNotifPanel()" title="Notifications" style="display:none">
+        🔔
+        <span class="notif-badge" id="notif-count" style="display:none">0</span>
+      </div>
+      <div class="nav-user">
+        <div class="nav-avatar" id="nav-avatar"></div>
+        <span class="nav-user-name" id="nav-username"></span>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">↩ Logout</button>
+    </div>
+  </nav>
+
+  <!-- NOTIFICATION PANEL -->
+  <div class="notif-panel" id="notif-panel">
+    <div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:13px;font-weight:800">🔔 Notifications</div>
+      <button onclick="markAllRead()" style="font-size:11px;color:var(--primary);background:none;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-weight:600">Mark all read</button>
+    </div>
+    <div id="notif-list"><div style="padding:20px;text-align:center;font-size:12px;color:var(--muted)">No notifications yet</div></div>
+  </div>
+
+  <!-- MODALS -->
+  <!-- Add Student -->
+  <div class="moverlay" id="m-student">
+    <div class="modal">
+      <div class="modal-title">➕ <span data-en="Add Student"></span></div>
+      <div class="fg"><label class="fl" data-en="Full Name"></label><input class="fc" id="sn-name" placeholder="Full name"></div>
+      <div class="fg"><label class="fl">Email</label><input class="fc" id="sn-email" type="email" placeholder="student@email.com"></div>
+      <div class="fg"><label class="fl" data-en="Temporary Password"></label><input class="fc" id="sn-pass" type="text" placeholder="Min 6 characters" value="Science123"></div>
+      <div class="g2">
+        <div class="fg"><label class="fl" data-en="Grade"></label>
+          <select class="fc" id="sn-grade"><option value="10">Grade 10</option><option value="11">Grade 11</option></select></div>
+        <div class="fg"><label class="fl" data-en="Status"></label>
+          <select class="fc" id="sn-status"><option value="online">Online</option><option value="offline">Offline</option></select></div>
+      </div>
+      <div class="fg"><label class="fl">Exam Mark %</label><input class="fc" id="sn-curr" type="number" min="0" max="100" placeholder="e.g. 78"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeM('m-student')" data-en="Cancel"></button>
+        <button class="btn btn-primary btn-sm" onclick="addStudent()" id="add-student-btn" data-en="Add Student"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Marks -->
+  <div class="moverlay" id="m-marks">
+    <div class="modal">
+      <div class="modal-title">✏️ Edit Exam Mark – <span id="ed-name"></span></div>
+      <div class="fg"><label class="fl">Exam Mark %</label><input class="fc" id="ed-curr" type="number" min="0" max="100" placeholder="e.g. 82"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeM('m-marks')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveMarks()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Resource -->
+  <div class="moverlay" id="m-upload">
+    <div class="modal">
+      <div class="modal-title">📤 <span data-en="Upload Resource"></span></div>
+      <div class="fg"><label class="fl" data-en="Title"></label><input class="fc" id="up-title" placeholder="e.g. Light &amp; Optics Notes"></div>
+      <div class="g2">
+        <div class="fg"><label class="fl" data-en="Type"></label>
+          <select class="fc" id="up-type"><option>Notes</option><option>Past Paper</option><option>Worksheet</option><option>Reference</option></select></div>
+        <div class="fg"><label class="fl" data-en="Topic"></label>
+          <select class="fc" id="up-topic"><option value="ph">Physics</option><option value="ch">Chemistry</option><option value="bi">Biology</option><option value="sc">General Science</option></select></div>
+      </div>
+      <div class="fg"><label class="fl" data-en="Grade Access"></label>
+        <select class="fc" id="up-grade"><option value="both">Both Grades</option><option value="10">Grade 10 Only</option><option value="11">Grade 11 Only</option></select></div>
+      <div class="fg"><label class="fl" data-en="Description (optional)"></label><textarea class="fc" id="up-desc" rows="2" placeholder="Short description..."></textarea></div>
+      <div class="fg"><label class="fl" data-en="File"></label><input class="fc" type="file" id="up-file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeM('m-upload')" data-en="Cancel"></button>
+        <button class="btn btn-green btn-sm" onclick="uploadResource()" id="upload-btn" data-en="Upload"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Quiz Question -->
+  <div class="moverlay" id="m-quiz">
+    <div class="modal">
+      <div class="modal-title">📝 Add Quiz Question</div>
+      <div class="fg"><label class="fl">Quiz Set (Week/Topic name)</label><input class="fc" id="qq-set" placeholder="e.g. Week 1 Quiz · Light &amp; Optics" list="existing-sets"><datalist id="existing-sets"></datalist></div>
+      <div class="fg"><label class="fl">Question</label><textarea class="fc" id="qq-q" rows="2" placeholder="Type your question... (Tamil or English both work)" style="font-size:14px;line-height:1.6"></textarea></div>
+      <div class="fg"><label class="fl">Option A</label><input class="fc" id="qq-a"></div>
+      <div class="fg"><label class="fl">Option B</label><input class="fc" id="qq-b"></div>
+      <div class="fg"><label class="fl">Option C</label><input class="fc" id="qq-c"></div>
+      <div class="fg"><label class="fl">Option D</label><input class="fc" id="qq-d"></div>
+      <div class="g2">
+        <div class="fg"><label class="fl" data-en="Correct Answer"></label>
+          <select class="fc" id="qq-ans"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+        <div class="fg"><label class="fl" data-en="Grade"></label>
+          <select class="fc" id="qq-grade"><option value="both">Both Grades</option><option value="10">Grade 10</option><option value="11">Grade 11</option></select></div>
+      </div>
+      <div class="fg"><label class="fl" data-en="Topic"></label>
+        <select class="fc" id="qq-topic"><option value="ph">Physics</option><option value="ch">Chemistry</option><option value="bi">Biology</option><option value="sc">General</option></select></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeM('m-quiz')" data-en="Cancel"></button>
+        <button class="btn btn-primary btn-sm" onclick="addQuizQ()" data-en="Add Question"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Video -->
+  <div class="moverlay" id="m-video">
+    <div class="modal">
+      <div class="modal-title">📺 <span data-en="Add YouTube Video"></span></div>
+      <div class="banner banner-info">ℹ️ Paste the YouTube Video ID from your video URL. Example: for youtube.com/watch?v=<strong>dQw4w9WgXcQ</strong> the ID is <strong>dQw4w9WgXcQ</strong></div>
+      <div class="fg"><label class="fl" data-en="YouTube Video ID"></label><input class="fc" id="vid-id" placeholder="e.g. M2K4DjFxDaI"></div>
+      <div class="fg"><label class="fl" data-en="Video Title"></label><input class="fc" id="vid-title" placeholder="e.g. Light & Optics – Full Lesson"></div>
+      <div class="g2">
+        <div class="fg"><label class="fl" data-en="Topic"></label>
+          <select class="fc" id="vid-topic"><option value="ph">Physics</option><option value="ch">Chemistry</option><option value="bi">Biology</option><option value="sc">General</option></select></div>
+        <div class="fg"><label class="fl" data-en="Grade"></label>
+          <select class="fc" id="vid-grade"><option value="both">Both</option><option value="10">Grade 10</option><option value="11">Grade 11</option></select></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" onclick="closeM('m-video')" data-en="Cancel"></button>
+        <button class="btn btn-yt btn-sm" onclick="addVideo()" data-en="Add Video"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="wrap">
+    <div id="page-content"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ══════════════════════════════
+// SUPABASE INIT
+// ══════════════════════════════
+const SUPABASE_URL = 'https://qakeqhqdlevubylylkmc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFha2VxaHFkbGV2dWJ5bHlsa21jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3NzgyNTgsImV4cCI6MjA5MDM1NDI1OH0.qpcjpvbkK6nqAVbZrqe-FPilojdSv6b8Qqb3Qt0-whw';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let currentUser = null;
+let userProfile = null;
+let userRole = 'student'; // 'teacher' | 'student'
+const lang = 'en';
+let page = 'dashboard';
+let authRole = 'student';
+let editingStudentId = null;
+let ytPlaying = null;
+let quizSt = { idx:0, sel:-1, done:false, score:0, ans:[], answered:false };
+
+// ══════════════════════════════
+// I18N
+// ══════════════════════════════
+const T = {
+  Dashboard:{en:'Dashboard'},
+  Students:{en:'Students'},
+  Ranking:{en:'Top Ranking'},
+  Performance:{en:'Performance'},
+  Resources:{en:'Resources'},
+  Quizzes:{en:'Quizzes'},
+  Videos:{en:'Videos'},
+  Home:{en:'Home'},
+  QuizHistory:{en:'Quiz History'},
+  WelcomeBack:{en:'Welcome back'},
+  LastTerm:{en:'Last Term'},
+  CurrTerm:{en:'Current'},
+  Change:{en:'Change'},
+  Download:{en:'Download'},
+  Delete:{en:'Delete'},
+  Edit:{en:'Edit'},
+  ViewAll:{en:'View all →'},
+  AddStudent:{en:'+ Add Student'},
+  UploadRes:{en:'Upload Resource'},
+  AddQuestion:{en:'+ Add Question'},
+  AddVideo:{en:'+ Add Video'},
+  Submit:{en:'Submit'},
+  Next:{en:'Next →'},
+  RetakeQuiz:{en:'Retake Quiz'},
+  YourScore:{en:'Your Score'},
+  Excellent:{en:'Excellent! 🏆'},
+  GoodJob:{en:'Good job! 👍'},
+  KeepPractice:{en:'Keep practising! 📚'},
+  YourAns:{en:'Your answer'},
+  CorrectAns:{en:'Correct'},
+  QofN:{en:'Question'},
+  of:{en:'of'},
+  NoQuiz:{en:'No quiz questions for your grade yet.'},
+  NoFiles:{en:'No files uploaded yet.'},
+  NoVideos:{en:'No videos added yet.'},
+  Improvement:{en:'Improvement 🎉'},
+  NeedAttn:{en:'Needs attention'},
+  NoChange:{en:'No change'},
+  TermComp:{en:'Term Comparison'},
+  QuizHistory:{en:'Quiz History'},
+  FilterTopic:{en:'All Topics'},
+  TapDownload:{en:'Tap to download · files for your grade'},
+  WatchYT:{en:'Watch on YouTube'},
+  ChannelVideos:{en:'Channel Videos'},
+};
+const t = k => (T[k]||{})[lang] || T[k]?.en || k;
+
+const TOPICS = {
+  ph:{label:'Physics',cls:'bph',color:'var(--physics)'},
+  ch:{label:'Chemistry',cls:'bch',color:'var(--chemistry)'},
+  bi:{label:'Biology',cls:'bbi',color:'var(--biology)'},
+  sc:{label:'Science',cls:'bon',color:'var(--green)'}
+};
+
+
+// ══════════════════════════════
+// HELPERS
+// ══════════════════════════════
+const mc = v => v>=70?'var(--green)':v>=50?'var(--amber)':'var(--red)';
+const dc = d => d>0?'var(--green)':d<0?'var(--red)':'var(--dim)';
+const da = d => d>0?'↑':d<0?'↓':'→';
+function openM(id){document.getElementById(id).classList.add('open')}
+function closeM(id){document.getElementById(id).classList.remove('open')}
+document.addEventListener('click',e=>{if(e.target.classList.contains('moverlay'))e.target.classList.remove('open')});
+
+function showToast(msg, type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='show '+(type==='ok'?'ok':'err');
+  setTimeout(()=>el.className='',3000);
+}
+
+// ══════════════════════════════
+// NOTIFICATION SYSTEM
+// ══════════════════════════════
+let notifPanelOpen=false;
+let notifCache=[];
+
+function toggleNotifPanel(){
+  notifPanelOpen=!notifPanelOpen;
+  document.getElementById('notif-panel').classList.toggle('open',notifPanelOpen);
+  if(notifPanelOpen) loadNotifications();
+}
+// Close panel when clicking outside
+document.addEventListener('click',e=>{
+  if(notifPanelOpen&&!document.getElementById('notif-panel').contains(e.target)&&!document.getElementById('notif-bell').contains(e.target)){
+    notifPanelOpen=false;
+    document.getElementById('notif-panel').classList.remove('open');
+  }
+});
+
+async function loadNotifications(){
+  if(userRole!=='student') return;
+  const {data:notifs}=await sb.from('notifications')
+    .select('*')
+    .or(`target_grade.eq.both,target_grade.eq.${userProfile?.grade}`)
+    .order('created_at',{ascending:false})
+    .limit(20);
+  notifCache=notifs||[];
+  // Read IDs stored locally
+  const readIds=JSON.parse(localStorage.getItem('st_read_notifs')||'[]');
+  const unread=notifCache.filter(n=>!readIds.includes(n.id));
+  // Update badge
+  const badge=document.getElementById('notif-count');
+  if(unread.length>0){badge.textContent=unread.length>9?'9+':unread.length;badge.style.display='flex';}
+  else{badge.style.display='none';}
+  // Render list
+  const list=document.getElementById('notif-list');
+  if(!notifCache.length){list.innerHTML='<div style="padding:20px;text-align:center;font-size:12px;color:var(--muted)">No notifications yet</div>';return;}
+  list.innerHTML=notifCache.map(n=>{
+    const isUnread=!readIds.includes(n.id);
+    const ago=timeAgo(n.created_at);
+    return `<div class="notif-item${isUnread?' unread':''}" onclick="clickNotif('${n.id}','${n.type}','${(n.quiz_set_name||'').replace(/'/g,"\\'")}')">
+      <div style="font-size:12px;font-weight:${isUnread?'700':'500'};color:${isUnread?'var(--text)':'var(--muted)'};margin-bottom:3px">${n.icon||'📢'} ${n.title}</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.4">${n.message}</div>
+      <div style="font-size:10px;color:var(--dim);margin-top:4px">${ago}</div>
+    </div>`;
+  }).join('');
+}
+
+function timeAgo(iso){
+  const diff=Date.now()-new Date(iso).getTime();
+  const m=Math.floor(diff/60000),h=Math.floor(m/60),d=Math.floor(h/24);
+  if(d>0)return d+'d ago';if(h>0)return h+'h ago';if(m>0)return m+'m ago';return 'Just now';
+}
+
+function clickNotif(id,type,setName){
+  // Mark as read
+  const readIds=JSON.parse(localStorage.getItem('st_read_notifs')||'[]');
+  if(!readIds.includes(id))readIds.push(id);
+  localStorage.setItem('st_read_notifs',JSON.stringify(readIds));
+  notifPanelOpen=false;
+  document.getElementById('notif-panel').classList.remove('open');
+  // Navigate to relevant page
+  if(type==='new_quiz'||type==='new_question') navTo('s-quiz');
+  else if(type==='new_video') navTo('s-videos');
+  else if(type==='new_resource') navTo('s-resources');
+  loadNotifications();
+}
+
+function markAllRead(){
+  const readIds=notifCache.map(n=>n.id);
+  localStorage.setItem('st_read_notifs',JSON.stringify(readIds));
+  loadNotifications();
+}
+
+async function checkNotifBadge(){
+  if(userRole!=='student') return;
+  const {data:notifs}=await sb.from('notifications')
+    .select('id')
+    .or(`target_grade.eq.both,target_grade.eq.${userProfile?.grade}`)
+    .order('created_at',{ascending:false})
+    .limit(30);
+  const readIds=JSON.parse(localStorage.getItem('st_read_notifs')||'[]');
+  const unread=(notifs||[]).filter(n=>!readIds.includes(n.id));
+  const badge=document.getElementById('notif-count');
+  if(unread.length>0){badge.textContent=unread.length>9?'9+':unread.length;badge.style.display='flex';}
+  else{badge.style.display='none';}
+}
+
+// Teacher sends a notification to students
+async function sendNotification(type, title, message, quiz_set_name, target_grade){
+  try {
+    await sb.from('notifications').insert({
+      type, title, message, quiz_set_name: quiz_set_name||null,
+      target_grade: target_grade||'both',
+      created_by: currentUser.id,
+      icon: type==='new_quiz'?'📝':type==='new_question'?'❓':type==='new_video'?'📺':'📢',
+      created_at: new Date().toISOString()
+    });
+  } catch(e){ /* notifications table may not exist yet — fail silently */ }
+}
+
+// Force file download (bypasses browser opening PDF in tab)
+async function forceDownload(url, filename){
+  try {
+    showToast('Downloading...','ok');
+    const resp = await fetch(url);
+    const blob = await resp.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename || 'sciencetopper-file';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+  } catch(e){
+    // Fallback: open in new tab
+    window.open(url,'_blank');
+  }
+}
+
+
+
+function applyAttrs(){
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const v=lang==='ta'?(el.dataset.ta||el.dataset.en):el.dataset.en;
+    if(!v)return;
+    if(el.tagName==='BUTTON'||el.tagName==='LABEL')el.textContent=v;
+    else el.textContent=v;
+  });
+}
+
+// ══════════════════════════════
+// AUTH
+// ══════════════════════════════
+function setAuthRole(r){
+  authRole=r;
+  document.querySelectorAll('.auth-tab').forEach((b,i)=>b.classList.toggle('active',i===(r==='student'?0:1)));
+  document.getElementById('login-title').textContent = r==='teacher'?'Teacher Login':'Student Login';
+  document.getElementById('login-sub').textContent = r==='teacher'
+    ?'Login to manage your class'
+    :'Enter your email and password';
+  document.getElementById('signup-title').textContent = r==='teacher'?'Teacher Registration':'Student Registration';
+  const gf=document.getElementById('grade-field');
+  if(gf)gf.style.display=r==='teacher'?'none':'block';
+}
+
+function showLogin(){document.getElementById('login-form').style.display='block';document.getElementById('signup-form').style.display='none';clearAuthMsg();}
+function showSignup(){document.getElementById('login-form').style.display='none';document.getElementById('signup-form').style.display='block';clearAuthMsg();}
+function clearAuthMsg(){document.getElementById('auth-error').style.display='none';document.getElementById('auth-success').style.display='none';}
+function showAuthError(msg){const e=document.getElementById('auth-error');e.textContent=msg;e.style.display='block';}
+function showAuthSuccess(msg){const e=document.getElementById('auth-success');e.textContent=msg;e.style.display='block';}
+
+async function doLogin(){
+  clearAuthMsg();
+  const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value;
+  if(!email||!password){showAuthError('Please fill all fields.');return;}
+  const btn=document.getElementById('login-btn');
+  btn.innerHTML='<span class="spinner"></span>Signing in...';btn.disabled=true;
+  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  btn.innerHTML='Sign In';btn.disabled=false;
+  if(error){showAuthError(error.message);return;}
+  await afterLogin(data.user);
+}
+
+async function doSignup(){
+  clearAuthMsg();
+  const name=document.getElementById('signup-name').value.trim();
+  const email=document.getElementById('signup-email').value.trim();
+  const password=document.getElementById('signup-password').value;
+  const grade=authRole==='student'?(document.getElementById('signup-grade').value):'';
+  if(!name||!email||!password){showAuthError('Please fill all fields.');return;}
+  if(password.length<6){showAuthError('Password must be at least 6 characters.');return;}
+  const btn=document.getElementById('signup-btn');
+  btn.innerHTML='<span class="spinner"></span>Creating...';btn.disabled=true;
+  const {data,error}=await sb.auth.signUp({
+    email,password,
+    options:{data:{full_name:name,role:authRole,grade:grade}}
+  });
+  btn.innerHTML='Create Account';btn.disabled=false;
+  if(error){showAuthError(error.message);return;}
+  // Wait a moment then force-write the correct profile so trigger can't override role
+  const uid=data?.user?.id;
+  if(uid){
+    await new Promise(r=>setTimeout(r,800));
+    const {error:pe}=await sb.from('profiles').upsert({
+      id:uid,full_name:name,role:authRole,grade:grade,
+      email:email,current_term:0,status:'online'
+    },{onConflict:'id'});
+    if(pe) console.warn('Profile upsert warning:',pe.message);
+  }
+  showAuthSuccess('Account created! You can now sign in.');
+  setTimeout(showLogin,2000);
+}
+
+async function afterLogin(user){
+  currentUser=user;
+  // Fetch profile
+  const {data:prof}=await sb.from('profiles').select('*').eq('id',user.id).single();
+  if(prof){
+    userProfile=prof;
+    userRole=prof.role||'student';
+  } else {
+    // Try metadata
+    userRole=user.user_metadata?.role||'student';
+    userProfile={full_name:user.user_metadata?.full_name||user.email,role:userRole,grade:user.user_metadata?.grade||'10'};
+  }
+  const authEl=document.getElementById('auth-screen');
+  authEl.style.display='none';
+  authEl.style.pointerEvents='none';
+  const appEl=document.getElementById('app');
+  appEl.style.display='flex';
+  appEl.style.flexDirection='column';
+  const name=(userProfile.full_name||user.email).split(' ')[0];
+  document.getElementById('nav-username').textContent=name;
+  document.getElementById('nav-avatar').textContent=name[0].toUpperCase();
+  page = userRole==='teacher'?'dashboard':'s-home';
+  // Mark student as online
+  if(userRole==='student'){
+    await sb.from('profiles').update({status:'online'}).eq('id',user.id);
+    if(userProfile) userProfile.status='online';
+    // Show notification bell for students
+    document.getElementById('notif-bell').style.display='flex';
+    // Mark offline on page close
+    window.addEventListener('beforeunload',()=>{
+      navigator.sendBeacon(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`,
+        JSON.stringify({status:'offline'}));
+    });
+    // Poll for new notifications every 60s
+    checkNotifBadge();
+    setInterval(checkNotifBadge, 60000);
+  }
+  render();
+}
+
+async function doLogout(){
+  if(currentUser && userRole==='student'){
+    await sb.from('profiles').update({status:'offline'}).eq('id',currentUser.id);
+  }
+  await sb.auth.signOut();
+  currentUser=null;userProfile=null;
+  document.getElementById('app').style.display='none';
+  const authRestore=document.getElementById('auth-screen');
+  authRestore.style.display='flex';
+  authRestore.style.pointerEvents='auto';
+  document.getElementById('login-email').value='';
+  document.getElementById('login-password').value='';
+  clearAuthMsg();showLogin();
+}
+
+// Check existing session
+sb.auth.getSession().then(async({data:{session}})=>{
+  if(session?.user)await afterLogin(session.user);
+});
+
+// ══════════════════════════════
+// NAV
+// ══════════════════════════════
+function navTo(p){page=p;ytPlaying=null;render();}
+
+function renderNav(){
+  const pages=userRole==='teacher'
+    ?[{id:'dashboard',k:'Dashboard'},{id:'students',k:'Students'},{id:'ranking',k:'Ranking'},{id:'resources',k:'Resources'},{id:'quizzes',k:'Quizzes'},{id:'videos',k:'Videos'}]
+    :[{id:'s-home',k:'Home'},{id:'s-videos',k:'Videos'},{id:'s-resources',k:'Resources'},{id:'s-quiz',k:'Quizzes'},{id:'s-quizhistory',k:'QuizHistory'},{id:'s-ranking',k:'Ranking'}];
+  document.getElementById('nav-links').innerHTML=pages.map(p=>
+    `<button class="navbtn${page===p.id?' active':''}" onclick="navTo('${p.id}')">${t(p.k)}</button>`
+  ).join('');
+}
+
+// ══════════════════════════════
+// MAIN RENDER
+// ══════════════════════════════
+function render(){
+  renderNav();applyAttrs();
+  const el=document.getElementById('page-content');
+  el.innerHTML=`<div class="page-loading"><span class="spinner"></span>Loading...</div>`;
+  const map={
+    dashboard:rDashboard,students:rStudents,
+    ranking:rRanking,resources:rResources,quizzes:rQuizMgr,videos:rVideos,
+    's-home':rSHome,'s-videos':rSVideos,'s-resources':rSFiles,'s-quiz':rSQuiz,'s-quizhistory':rSQuizHistory,'s-ranking':rSRanking
+  };
+  (map[page]||rDashboard)();
+}
+
+function setPage(html){
+  const el=document.getElementById('page-content');
+  el.innerHTML=`<div class="fadeUp">${html}</div>`;
+  applyAttrs();
+}
+
+// ══════════════════════════════
+// TEACHER: DASHBOARD
+// ══════════════════════════════
+async function rDashboard(){
+  const [{data:students},{data:resources},{data:videos},{data:attempts}]=await Promise.all([
+    sb.from('profiles').select('*').eq('role','student'),
+    sb.from('resources').select('*').order('created_at',{ascending:false}).limit(3),
+    sb.from('videos').select('*').order('created_at',{ascending:false}).limit(3),
+    sb.from('quiz_attempts').select('student_id')
+  ]);
+  const S=students||[], R=resources||[], V=videos||[], A=attempts||[];
+  const g10=S.filter(s=>s.grade==='10').length, g11=S.filter(s=>s.grade==='11').length;
+  const on=S.filter(s=>s.status==='online').length;
+  const onlineStudents=S.filter(s=>s.status==='online');
+  const pendingStudents=S.filter(s=>!A.some(a=>a.student_id===s.id));
+  const doneStudents=S.filter(s=>A.some(a=>a.student_id===s.id));
+  setPage(`
+<div class="sec-hd">
+  <div><h2>🔬 ScienceTopper</h2><p>${'Grade 10 & 11 Science · Sri Lanka'} · ${t('WelcomeBack')}, ${(userProfile?.full_name||'').split(' ')[0]}!</p></div>
+  <button class="btn btn-primary btn-sm" onclick="openM('m-student')">${t('AddStudent')}</button>
+</div>
+<div class="g4" style="margin-bottom:14px">
+  <div class="statcard"><div class="stat-ic">👥</div><div class="stat-lbl">Total Students</div><div class="stat-val" style="color:var(--primary)">${S.length}</div><div class="stat-sub">${g10} Gr10 · ${g11} Gr11</div></div>
+  <div class="statcard" style="border-color:${on>0?'rgba(34,197,94,.3)':'var(--border)'}"><div class="stat-ic">🟢</div><div class="stat-lbl">Online Now</div><div class="stat-val" style="color:var(--green)">${on}</div><div class="stat-sub">${S.length-on} offline</div></div>
+  <div class="statcard"><div class="stat-ic">📂</div><div class="stat-lbl">Resources</div><div class="stat-val" style="color:var(--teal)">${R.length}${R.length===3?'+':''}</div></div>
+  <div class="statcard"><div class="stat-ic">📺</div><div class="stat-lbl">Videos</div><div class="stat-val" style="color:var(--yt)">${V.length}${V.length===3?'+':''}</div></div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="card-hd"><div class="card-title">${'Recent Students'}</div><button class="btn btn-ghost btn-sm" onclick="navTo('students')">${t('ViewAll')}</button></div>
+    ${S.length===0?`<div class="empty"><div class="empty-icon">👥</div><div class="empty-text">${'No students yet'}</div><button class="btn btn-primary btn-sm" onclick="openM('m-student')">${t('AddStudent')}</button></div>`:`
+    <table class="tbl"><thead><tr><th>${t('Students')}</th><th>Gr</th><th>${t('CurrTerm')}</th></tr></thead>
+    <tbody>${S.slice(0,5).map(s=>`<tr>
+      <td style="font-weight:600">${s.full_name}</td>
+      <td><span class="badge b${s.grade}">${s.grade}</span></td>
+      <td style="font-weight:800;color:${mc(s.current_term||0)}">${s.current_term||0}%</td>
+    </tr>`).join('')}</tbody></table>`}
+  </div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title">📺 ${'Latest Videos'}</div><button class="btn btn-ghost btn-sm" onclick="navTo('videos')">${t('ViewAll')}</button></div>
+    ${V.length===0?`<div class="empty"><div class="empty-icon">📺</div><div class="empty-text">${'No videos yet'}</div><button class="btn btn-yt btn-sm" onclick="openM('m-video')">${t('AddVideo')}</button></div>`
+    :V.map(v=>`<div class="fcard" onclick="navTo('videos')">
+      <div class="ficon" style="background:var(--ytl)">▶</div>
+      <div style="flex:1;min-width:0"><div class="fname">${v.title}</div><div class="fmeta">${TOPICS[v.topic]?.label||v.topic}</div></div>
+    </div>`).join('')}
+    <button class="btn btn-yt btn-sm" style="width:100%;justify-content:center;margin-top:8px" onclick="openM('m-video')">${t('AddVideo')}</button>
+  </div>
+</div>
+
+<!-- Online students + Quiz pending panels -->
+<div class="g2" style="margin-top:12px">
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title" style="display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px rgba(34,197,94,.5)"></span>Online Right Now (${onlineStudents.length})</div>
+    </div>
+    ${onlineStudents.length===0
+      ?`<div style="font-size:12px;color:var(--dim);padding:8px 0">No students online at the moment</div>`
+      :onlineStudents.map(s=>`
+      <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--gr11));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0">${s.full_name[0].toUpperCase()}</div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600">${s.full_name}</div><div style="font-size:10px;color:var(--muted)">Grade ${s.grade}</div></div>
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0"></span>
+      </div>`).join('')}
+  </div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title" style="display:flex;align-items:center;gap:7px"><span style="font-size:14px">⏳</span>Quiz Not Attempted (${pendingStudents.length})</div>
+    </div>
+    ${pendingStudents.length===0
+      ?`<div style="font-size:12px;color:var(--green);padding:8px 0">✅ All students have completed the quiz!</div>`
+      :pendingStudents.map(s=>`
+      <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--al);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--amber);flex-shrink:0">${s.full_name[0].toUpperCase()}</div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600">${s.full_name}</div><div style="font-size:10px;color:var(--muted)">Grade ${s.grade}</div></div>
+        <span style="font-size:10px;color:var(--amber);font-weight:700">Pending</span>
+      </div>`).join('')}
+  </div>
+</div>
+`);
+}
+
+// ══════════════════════════════
+// TEACHER: STUDENTS
+// ══════════════════════════════
+async function rStudents(){
+  const [{data:students},{data:attempts}]=await Promise.all([
+    sb.from('profiles').select('*').eq('role','student').order('full_name'),
+    sb.from('quiz_attempts').select('student_id')
+  ]);
+  const S=students||[], A=attempts||[];
+  setPage(`
+<div class="sec-hd">
+  <div><h2>${t('Students')}</h2><p>${'Student database · Grade 10 & 11 Science'}</p></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <select class="fc" style="width:auto;font-size:11px" id="fg" onchange="filterStudents()">
+      <option value="">All Grades</option><option value="10">Grade 10</option><option value="11">Grade 11</option>
+    </select>
+    <button class="btn btn-primary btn-sm" onclick="openM('m-student')">${t('AddStudent')}</button>
+  </div>
+</div>
+<div class="card" style="overflow-x:auto">
+${S.length===0?`<div class="empty"><div class="empty-icon">👥</div><div class="empty-text">${'No students yet. Click + Add Student above.'}</div></div>`:`
+<table class="tbl" id="student-tbl">
+  <thead><tr><th>#</th><th>Name</th><th>Grade</th><th>Status</th><th>Quiz Done</th><th></th></tr></thead>
+  <tbody>${S.map((s,i)=>{
+    const attempted = A.some(a=>a.student_id===s.id);
+    return `<tr data-grade="${s.grade}">
+      <td style="color:var(--dim)">${i+1}</td>
+      <td style="font-weight:600">${s.full_name}</td>
+      <td><span class="badge b${s.grade}">Gr ${s.grade}</span></td>
+      <td><span class="badge b${s.status||'offline'}">${s.status==='online'?'🟢 Online':'⚪ Offline'}</span></td>
+      <td><span style="font-size:11px;font-weight:700;color:${attempted?'var(--green)':'var(--amber)'}">${attempted?'✅ Done':'⏳ Pending'}</span></td>
+      <td style="display:flex;gap:5px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('${s.id}','${s.full_name}',${s.current_term||0})">Edit</button>
+        <button class="btn btn-primary btn-sm" onclick="viewStudentQuizResults('${s.id}','${s.full_name}')">📊 Results</button>
+      </td>
+    </tr>`;
+  }).join('')}</tbody>
+</table>`}
+</div>`);
+}
+
+function filterStudents(){
+  const v=document.getElementById('fg').value;
+  document.querySelectorAll('#student-tbl tbody tr').forEach(r=>{
+    r.style.display=(!v||r.dataset.grade===v)?'':'none';
+  });
+}
+
+// ══════════════════════════════
+// TEACHER: PER-STUDENT QUIZ RESULTS
+// ══════════════════════════════
+async function viewStudentQuizResults(studentId, studentName){
+  setPage(`<div class="page-loading"><span class="spinner"></span>Loading results for ${studentName}...</div>`);
+  const [{data:attempts},{data:allQs}]=await Promise.all([
+    sb.from('quiz_attempts').select('*').eq('student_id',studentId).order('completed_at',{ascending:false}),
+    sb.from('quizzes').select('*').order('created_at')
+  ]);
+  const A=attempts||[], Q=allQs||[];
+  // Group questions by set
+  const qSets={};
+  Q.forEach(q=>{ const s=q.quiz_set_name||'Quiz'; if(!qSets[s])qSets[s]=[]; qSets[s].push(q); });
+  const allSets=Object.keys(qSets);
+  const attemptMap={};
+  A.forEach(a=>{ attemptMap[a.quiz_set_name]=a; });
+
+  // Summary stats
+  const totalSets=allSets.length;
+  const doneSets=A.length;
+  const avgPct=A.length?Math.round(A.reduce((s,a)=>s+(a.pct||0),0)/A.length):0;
+  const totalCorrect=A.reduce((s,a)=>s+(a.score||0),0);
+  const totalQs=A.reduce((s,a)=>s+(a.total||0),0);
+
+  setPage(`
+<div class="sec-hd">
+  <div>
+    <h2>📊 ${studentName}'s Quiz Results</h2>
+    <p>Detailed per-question breakdown for all quiz sets</p>
+  </div>
+  <button class="btn btn-ghost btn-sm" onclick="navTo('students')">← Back to Students</button>
+</div>
+
+<!-- Summary cards -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px">
+  <div class="statcard" style="text-align:center">
+    <div class="stat-lbl">Quizzes Done</div>
+    <div class="stat-val" style="color:${doneSets>=totalSets?'var(--green)':'var(--amber)'}">${doneSets}/${totalSets}</div>
+  </div>
+  <div class="statcard" style="text-align:center">
+    <div class="stat-lbl">Avg Score</div>
+    <div class="stat-val" style="color:${mc(avgPct)}">${avgPct}%</div>
+  </div>
+  <div class="statcard" style="text-align:center">
+    <div class="stat-lbl">Correct Answers</div>
+    <div class="stat-val" style="color:var(--green)">${totalCorrect}</div>
+  </div>
+  <div class="statcard" style="text-align:center">
+    <div class="stat-lbl">Wrong Answers</div>
+    <div class="stat-val" style="color:var(--red)">${totalQs-totalCorrect}</div>
+  </div>
+</div>
+
+<!-- Per-set breakdown -->
+<div style="display:grid;gap:14px">
+${allSets.map(setName=>{
+  const setQs=qSets[setName]||[];
+  const attempt=attemptMap[setName];
+  const savedAns=attempt?.answers||[];
+  const setDate=new Date(setQs[0].created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  return `
+  <div class="card">
+    <!-- Set header -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+      <div style="width:44px;height:44px;border-radius:10px;background:${attempt?'var(--gl)':'var(--al)'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${attempt?'✅':'⏳'}</div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:14px">${setName}</div>
+        <div style="font-size:11px;color:var(--muted)">📅 ${setDate} · ${setQs.length} questions</div>
+      </div>
+      ${attempt?`
+      <div style="text-align:right">
+        <div style="font-size:24px;font-weight:800;color:${mc(attempt.pct)}">${attempt.pct}%</div>
+        <div style="font-size:11px;color:var(--muted)">${attempt.score}/${attempt.total} correct</div>
+        <div style="font-size:10px;color:var(--dim)">Taken: ${new Date(attempt.completed_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <!-- Mini bar chart of score -->
+      <div style="width:100%;margin-top:8px">
+        <div class="prog" style="height:8px">
+          <div class="prog-fill" style="width:${attempt.pct}%;background:${mc(attempt.pct)}"></div>
+        </div>
+      </div>`:`
+      <div style="padding:6px 14px;background:var(--al);border-radius:8px;font-size:12px;font-weight:700;color:var(--amber)">⏳ Not attempted</div>`}
+    </div>
+    ${attempt?`
+    <!-- Per-question breakdown -->
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">
+        Question Breakdown — ${attempt.score} correct · ${attempt.total-attempt.score} wrong
+      </div>
+      ${setQs.map((q,i)=>{
+        const chosen=savedAns[i]??-1;
+        const correct=q.correct_answer;
+        const isRight=chosen===correct;
+        const chosenLabel=chosen>=0?(['A','B','C','D'][chosen]+'. '+(q.options||[])[chosen]):'(No answer)';
+        const correctLabel=['A','B','C','D'][correct]+'. '+(q.options||[])[correct];
+        return `
+        <div style="padding:10px 12px;background:${isRight?'rgba(34,197,94,.06)':'rgba(239,68,68,.06)'};border:1px solid ${isRight?'rgba(34,197,94,.15)':'rgba(239,68,68,.18)'};border-radius:9px;margin-bottom:7px">
+          <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:6px">
+            <span style="font-size:13px;flex-shrink:0;margin-top:1px">${isRight?'✅':'❌'}</span>
+            <div>
+              <div style="font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Q${i+1} · ${TOPICS[q.topic]?.label||q.topic||''}</div>
+              <div style="font-weight:600;font-size:12px;line-height:1.5;color:var(--text)">${q.question}</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;font-size:11px">
+            <div>
+              <div style="color:var(--dim);font-weight:600;margin-bottom:2px">Student answered:</div>
+              <div style="color:${isRight?'var(--green)':'#fca5a5'};font-weight:700">${chosenLabel}</div>
+            </div>
+            ${!isRight?`<div>
+              <div style="color:var(--dim);font-weight:600;margin-bottom:2px">Correct answer:</div>
+              <div style="color:var(--green);font-weight:700">${correctLabel}</div>
+            </div>`:''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`:`
+    <div style="padding:10px;color:var(--muted);font-size:12px">Student hasn't attempted this quiz yet.</div>`}
+  </div>`;
+}).join('')}
+</div>`);
+}
+
+function openEdit(id,name,curr){
+  editingStudentId=id;
+  document.getElementById('ed-name').textContent=name;
+  document.getElementById('ed-curr').value=curr;
+  openM('m-marks');
+}
+
+async function saveMarks(){
+  const curr=+document.getElementById('ed-curr').value||0;
+  const {error}=await sb.from('profiles').update({current_term:curr}).eq('id',editingStudentId);
+  if(error){showToast('Error saving: '+error.message,'err');return;}
+  showToast('Marks saved!','ok');
+  closeM('m-marks');rStudents();
+}
+
+async function addStudent(){
+  const name=document.getElementById('sn-name').value.trim();
+  const email=document.getElementById('sn-email').value.trim();
+  const pass=document.getElementById('sn-pass').value;
+  const grade=document.getElementById('sn-grade').value;
+  const status=document.getElementById('sn-status').value;
+  const curr=+document.getElementById('sn-curr').value||0;
+  if(!name||!email){showToast('Name and email required','err');return;}
+  const btn=document.getElementById('add-student-btn');
+  btn.innerHTML='<span class="spinner"></span>Adding...';btn.disabled=true;
+  // Sign up student
+  const {data,error}=await sb.auth.signUp({
+    email,password:pass||'Science123',
+    options:{data:{full_name:name,role:'student',grade}}
+  });
+  if(error&&!error.message.includes('already registered')){
+    btn.innerHTML='Add Student';btn.disabled=false;
+    showToast('Error: '+error.message,'err');return;
+  }
+  const uid=data?.user?.id;
+  if(uid){
+    await sb.from('profiles').upsert({
+      id:uid,full_name:name,email,role:'student',grade,status,
+      current_term:curr
+    });
+  }
+  btn.innerHTML='Add Student';btn.disabled=false;
+  showToast('Student added!','ok');
+  closeM('m-student');
+  document.getElementById('sn-name').value='';document.getElementById('sn-email').value='';
+  rStudents();
+}
+
+// ══════════════════════════════════════════════
+// TEACHER: TOP RANKING
+// ══════════════════════════════════════════════
+async function rRanking(){
+  const [{data:students},{data:attempts},{data:allQuizSetsT}] = await Promise.all([
+    sb.from('profiles').select('id,full_name,grade,current_term').eq('role','student').order('full_name'),
+    sb.from('quiz_attempts').select('student_id,score,total,pct,completed_at,quiz_set_name'),
+    sb.from('quizzes').select('quiz_set_name')
+  ]);
+  const S=students||[], A=attempts||[];
+  const totalSetsT = new Set((allQuizSetsT||[]).map(q=>q.quiz_set_name).filter(Boolean)).size || 1;
+
+  // Get unique sets and score per student (avg across all completed sets)
+  const ranked = S.map(s=>{
+    const myAttempts = A.filter(a=>a.student_id===s.id);
+    const avgQuiz = myAttempts.length
+      ? Math.round(myAttempts.reduce((x,a)=>x+(a.pct||0),0)/myAttempts.length) : null;
+    const termMark = s.current_term||0;
+    const overall = avgQuiz!==null ? avgQuiz : 0;
+    const uniqueSetsT = new Set(myAttempts.map(a=>a.quiz_set_name).filter(Boolean));
+    const quizCount = uniqueSetsT.size;
+    const lastDone = myAttempts.length
+      ? Math.max(...myAttempts.map(a=>a.completed_at?new Date(a.completed_at).getTime():0))
+      : Infinity;
+    return {...s, avgQuiz, termMark, overall, quizCount, totalSets:totalSetsT, lastDone};
+  }).sort((a,b)=>{
+    // 1st priority: more quizzes completed wins always
+    if(b.quizCount !== a.quizCount) return b.quizCount - a.quizCount;
+    // 2nd priority: higher score wins
+    if(b.overall !== a.overall) return b.overall - a.overall;
+    // 3rd priority: finished quizzes faster wins
+    return a.lastDone - b.lastDone;
+  });
+
+  const medals=['🥇','🥈','🥉'];
+  const mColors=['#FFD700','#C0C0C0','#CD7F32'];
+
+  setPage(`
+<div class="sec-hd">
+  <div><h2>🏆 Top Ranking</h2><p>Ranked by Quizzes Completed → Score → Speed · Updates live</p></div>
+</div>
+
+${ranked.length===0?`<div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">No students yet. Add students to see ranking.</div></div>`:`
+
+<!-- Top 3 podium -->
+${ranked.length>=2?`
+<div style="display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-bottom:20px;padding:10px 0">
+  ${ranked.length>=2?`
+  <div style="text-align:center;flex:1;max-width:160px">
+    <div style="font-size:28px;margin-bottom:4px">🥈</div>
+    <div style="background:var(--card);border:1px solid rgba(192,192,192,.3);border-radius:10px;padding:12px 8px;height:90px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:12px;font-weight:700;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ranked[1]?.full_name.split(' ')[0]||''}</div>
+      <div style="font-size:20px;font-weight:800;color:#C0C0C0">${ranked[1]?.overall||0}%</div>
+      <span class="badge b${ranked[1]?.grade}" style="margin:4px auto 0">Gr ${ranked[1]?.grade}</span>
+    </div>
+  </div>`:''}
+  <div style="text-align:center;flex:1;max-width:180px">
+    <div style="font-size:36px;margin-bottom:4px">🥇</div>
+    <div style="background:var(--card);border:1.5px solid rgba(255,215,0,.4);border-radius:12px;padding:14px 10px;height:110px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 0 20px rgba(255,215,0,.08)">
+      <div style="font-size:13px;font-weight:800;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ranked[0]?.full_name.split(' ')[0]||''}</div>
+      <div style="font-size:26px;font-weight:800;color:#FFD700">${ranked[0]?.overall||0}%</div>
+      <span class="badge b${ranked[0]?.grade}" style="margin:4px auto 0">Gr ${ranked[0]?.grade}</span>
+    </div>
+  </div>
+  ${ranked.length>=3?`
+  <div style="text-align:center;flex:1;max-width:160px">
+    <div style="font-size:26px;margin-bottom:4px">🥉</div>
+    <div style="background:var(--card);border:1px solid rgba(205,127,50,.3);border-radius:10px;padding:12px 8px;height:80px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:12px;font-weight:700;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ranked[2]?.full_name.split(' ')[0]||''}</div>
+      <div style="font-size:18px;font-weight:800;color:#CD7F32">${ranked[2]?.overall||0}%</div>
+      <span class="badge b${ranked[2]?.grade}" style="margin:4px auto 0">Gr ${ranked[2]?.grade}</span>
+    </div>
+  </div>`:''}
+</div>`:''}
+
+<div class="card" style="overflow-x:auto">
+<table class="tbl">
+  <thead><tr>
+    <th style="width:50px">Rank</th>
+    <th>Student</th>
+    <th>Grade</th>
+    <th>Term Mark</th>
+    <th>Quiz Score</th>
+    <th>Quizzes Done</th>
+    <th>Overall</th>
+  </tr></thead>
+  <tbody>
+  ${ranked.map((s,i)=>`
+  <tr style="${i<3?'background:rgba(255,215,0,.02)':''}">
+    <td style="text-align:center;font-size:${i<3?'20':'13'}px;font-weight:700;color:${i<3?mColors[i]:'var(--muted)'}">
+      ${i<3?medals[i]:`#${i+1}`}
+    </td>
+    <td style="font-weight:700">${s.full_name}</td>
+    <td><span class="badge b${s.grade}">Gr ${s.grade}</span></td>
+    <td style="font-weight:600;color:${s.avgQuiz!==null?mc(s.avgQuiz):'var(--dim)'}">${s.avgQuiz!==null?s.avgQuiz+'%':'Not taken'}</td>
+    <td style="color:var(--muted);text-align:center">${s.quizCount}</td>
+    <td>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="flex:1;min-width:60px"><div class="prog"><div class="prog-fill" style="width:${s.overall}%;background:${i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':'var(--primary)'}"></div></div></div>
+        <span style="font-weight:800;font-size:14px;min-width:38px;color:${i<3?mColors[i]:'var(--primary)'}">${s.overall}%</span>
+      </div>
+    </td>
+  </tr>`).join('')}
+  </tbody>
+</table>
+</div>`}
+`);
+}
+
+// ══════════════════════════════
+// TEACHER: QUIZ MANAGER
+// ══════════════════════════════
+async function rQuizMgr(){
+  const {data:qs}=await sb.from('quizzes').select('*').order('created_at',{ascending:false});
+  const Q=qs||[];
+  // Group by quiz_set_name
+  const sets={};
+  Q.forEach(q=>{
+    const s=q.quiz_set_name||'Ungrouped';
+    if(!sets[s])sets[s]={questions:[],created_at:q.created_at,grade:q.grade};
+    sets[s].questions.push(q);
+  });
+  const setNames=Object.keys(sets);
+  // Populate datalist for modal
+  setTimeout(()=>{
+    const dl=document.getElementById('existing-sets');
+    if(dl){dl.innerHTML=setNames.map(n=>`<option value="${n}">`).join('');}
+  },100);
+  setPage(`
+<div class="sec-hd">
+  <div><h2>📝 Quizzes</h2><p>Manage weekly quiz sets · Students attempt each set once</p></div>
+  <button class="btn btn-primary btn-sm" onclick="openM('m-quiz')">+ Add Question</button>
+</div>
+${setNames.length===0?`<div class="empty"><div class="empty-icon">📝</div><div class="empty-text">No quizzes yet. Click + Add Question to create your first quiz set.</div></div>`:`
+<div style="display:grid;gap:12px">
+${setNames.map(setName=>{
+  const set=sets[setName];
+  const setDate=new Date(set.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  return `
+  <div class="card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <div>
+        <div style="font-weight:800;font-size:14px;margin-bottom:3px">📋 ${setName}</div>
+        <div style="font-size:11px;color:var(--muted)">Created: ${setDate} · ${set.questions.length} questions · Grade: ${set.grade==='both'?'All':('Gr '+set.grade)}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-ghost btn-sm" onclick="openAddQ(this)" data-set="${setName}" style="font-size:11px">+ Add Q</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteQuizSet(this.dataset.set,event)" data-set="${setName}" style="font-size:11px">🗑 Delete Set</button>
+      </div>
+    </div>
+    <div style="display:grid;gap:6px">
+    ${set.questions.map((q,i)=>`
+    <div style="background:var(--surface);border-radius:8px;padding:10px 12px">
+      <div style="font-weight:600;font-size:12px;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px">
+        <span style="background:var(--pglow);color:var(--primary);font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;flex-shrink:0">Q${i+1}</span>
+        <span style="flex:1">${q.question}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+        ${(q.options||[]).map((o,j)=>`
+        <div style="padding:4px 8px;border-radius:5px;font-size:11px;
+          background:${j===q.correct_answer?'var(--gl)':'rgba(255,255,255,.03)'};
+          color:${j===q.correct_answer?'var(--green)':'var(--muted)'};
+          border:1px solid ${j===q.correct_answer?'rgba(34,197,94,.25)':'transparent'}">
+          ${['A','B','C','D'][j]}. ${o}${j===q.correct_answer?' ✓':''}
+        </div>`).join('')}
+      </div>
+    </div>`).join('')}
+    </div>
+  </div>`;
+}).join('')}
+</div>`}
+`);
+}
+
+async function deleteQuizSet(setName, e){
+  if(e)e.stopPropagation();
+  if(!confirm('Delete the entire quiz set "'+setName+'"? This cannot be undone.'))return;
+  // Get all question IDs in this set
+  const {data:qs}=await sb.from('quizzes').select('id').eq('quiz_set_name',setName);
+  if(qs&&qs.length){
+    await sb.from('quizzes').delete().eq('quiz_set_name',setName);
+  }
+  showToast('Quiz set deleted','ok');
+  rQuizMgr();
+}
+
+
+function openAddQ(btn){
+  openM('m-quiz');
+  const setName = btn.dataset.set || '';
+  setTimeout(()=>{ 
+    const el=document.getElementById('qq-set'); 
+    if(el) el.value=setName; 
+  },50);
+}
+
+async function addQuizQ(){
+  const quiz_set=document.getElementById('qq-set').value.trim();
+  const question=document.getElementById('qq-q').value.trim();
+  const a=document.getElementById('qq-a').value.trim();
+  const b=document.getElementById('qq-b').value.trim();
+  const c=document.getElementById('qq-c').value.trim();
+  const d=document.getElementById('qq-d').value.trim();
+  const ans=+document.getElementById('qq-ans').value;
+  const grade=document.getElementById('qq-grade').value;
+  const topic=document.getElementById('qq-topic').value;
+  if(!quiz_set){showToast('Please enter a Quiz Set name (e.g. Week 1 Quiz)','err');return;}
+  if(!question||!a||!b||!c||!d){showToast('Please fill all fields','err');return;}
+  const {error}=await sb.from('quizzes').insert({
+    question,options:[a,b,c,d],correct_answer:ans,grade,topic,
+    quiz_set_name:quiz_set,created_by:currentUser.id
+  });
+  if(error){showToast('Error: '+error.message,'err');return;}
+  // Notify students
+  const isNewSet=!Object.keys(sets||{}).includes(quiz_set);
+  await sendNotification(
+    isNewSet?'new_quiz':'new_question',
+    isNewSet?`New Quiz: ${quiz_set}`:`New Question in "${quiz_set}"`,
+    isNewSet?`Your teacher added a new quiz set "${quiz_set}". Go take it now!`:`A new question was added to "${quiz_set}". Check it out!`,
+    quiz_set, grade==='both'?'both':grade
+  );
+  showToast('Question added to "'+quiz_set+'"!','ok');
+  closeM('m-quiz');
+  ['qq-q','qq-a','qq-b','qq-c','qq-d'].forEach(id=>document.getElementById(id).value='');
+  rQuizMgr();
+}
+
+async function deleteQ(id){
+  if(!confirm('Delete?'))return;
+  await sb.from('quizzes').delete().eq('id',id);
+  showToast('Deleted','ok');rQuizMgr();
+}
+
+// ══════════════════════════════
+// TEACHER: VIDEOS
+// ══════════════════════════════
+async function rVideos(){
+  const {data:vids}=await sb.from('videos').select('*').order('created_at',{ascending:false});
+  const V=vids||[];
+  const selected=ytPlaying?V.find(v=>v.youtube_id===ytPlaying):(V[0]||null);
+  setPage(`
+<div class="sec-hd">
+  <div><h2>📺 ${t('Videos')}</h2><p>Click any video to open and watch on YouTube</p></div>
+  <button class="btn btn-yt btn-sm" onclick="openM('m-video')">${t('AddVideo')}</button>
+</div>
+<div class="yt-hero">
+  <div class="yt-header">
+    <svg width="28" height="20" viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 6l8 4-8 4V6z" fill="white"/></svg>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:var(--text)">🔬 ScienceTopper</div>
+      <div style="font-size:11px;color:var(--muted)">Science Videos · Grade 10 & 11 · Sri Lanka</div>
+    </div>
+    <div style="margin-left:auto"><span style="font-size:11px;color:var(--muted)">${V.length} videos</span></div>
+  </div>
+  <div style="padding:16px">
+    ${selected?`
+    <!-- Featured video preview — click opens YouTube -->
+    <a href="https://www.youtube.com/watch?v=${selected.youtube_id}" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin-bottom:14px">
+      <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;cursor:pointer">
+        <img src="https://img.youtube.com/vi/${selected.youtube_id}/hqdefault.jpg"
+             onerror="this.src='https://img.youtube.com/vi/${selected.youtube_id}/mqdefault.jpg'"
+             alt="${selected.title}" style="width:100%;display:block;opacity:.85">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.35)">
+          <div style="width:72px;height:50px;background:#ff0000;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;box-shadow:0 4px 20px rgba(255,0,0,.5)">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);text-align:center;padding:0 12px">${selected.title}</div>
+          <div style="margin-top:8px;display:inline-flex;align-items:center;gap:8px;background:#ff0000;color:#fff;font-weight:700;font-size:12px;padding:8px 18px;border-radius:8px">
+            <svg width="16" height="11" viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#fff"/><path d="M11 6l8 4-8 4V6z" fill="#ff0000"/></svg>
+            Watch on YouTube
+          </div>
+        </div>
+      </div>
+    </a>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <span class="badge ${TOPICS[selected.topic]?.cls||'bon'}">${TOPICS[selected.topic]?.label||selected.topic}</span>
+      <a href="https://www.youtube.com/watch?v=${selected.youtube_id}" target="_blank" rel="noopener" class="btn btn-yt btn-sm" style="text-decoration:none;margin-left:auto">
+        <svg width="16" height="11" viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#fff"/><path d="M11 6l8 4-8 4V6z" fill="#ff0000"/></svg>
+        Open in YouTube
+      </a>
+    </div>`:`<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No videos yet. Click + Add Video.</div>`}
+    ${V.length>0?`
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px">${t('ChannelVideos')} (${V.length})</div>
+    <div class="yt-grid">
+      ${V.map(v=>`
+      <div class="yt-thumb${selected&&selected.youtube_id===v.youtube_id?' playing':''}" onclick="ytSelectT('${v.youtube_id}')">
+        <div class="yt-thumb-img">
+          <img src="https://img.youtube.com/vi/${v.youtube_id}/mqdefault.jpg" alt="${v.title}" loading="lazy">
+          <div class="yt-thumb-overlay">
+            <svg width="32" height="32" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="rgba(0,0,0,.5)"/><path d="M9 7l9 5-9 5V7z" fill="rgba(255,255,255,.9)"/></svg>
+          </div>
+        </div>
+        <div class="yt-thumb-info">
+          <div class="yt-thumb-title">${v.title}</div>
+          <div class="yt-thumb-meta" style="display:flex;gap:5px;align-items:center;margin-top:3px">
+            <span class="badge ${TOPICS[v.topic]?.cls||'bon'}" style="font-size:9px">${TOPICS[v.topic]?.label||v.topic}</span>
+            <a href="https://www.youtube.com/watch?v=${v.youtube_id}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;font-size:9px;color:#ff6666;font-weight:700;text-decoration:none">▶ YouTube</a>
+            <button onclick="deleteVid('${v.id}',event)" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:11px">🗑</button>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>`:''}
+  </div>
+</div>`);
+}
+
+function ytSelectT(id){ytPlaying=id; rVideos();}
+function ytSelectS(id){ytPlaying=id; rSVideos();}
+function ytPlay(id){ytPlaying=id; if(userRole==='teacher') rVideos(); else rSVideos();}
+
+async function addVideo(){
+  const youtube_id=document.getElementById('vid-id').value.trim();
+  const title=document.getElementById('vid-title').value.trim();
+  const topic=document.getElementById('vid-topic').value;
+  const grade=document.getElementById('vid-grade').value;
+  if(!youtube_id||!title){showToast('Video ID and title required','err');return;}
+  const {error}=await sb.from('videos').insert({youtube_id,title,topic,grade,created_by:currentUser.id});
+  if(error){showToast('Error: '+error.message,'err');return;}
+  showToast('Video added!','ok');
+  closeM('m-video');
+  document.getElementById('vid-id').value='';document.getElementById('vid-title').value='';
+  rVideos();
+}
+
+async function deleteVid(id,e){
+  e.stopPropagation();
+  if(!confirm('Delete?'))return;
+  await sb.from('videos').delete().eq('id',id);
+  ytPlaying=null;showToast('Deleted','ok');rVideos();
+}
+
+
+// ══════════════════════════════
+// TEACHER: RESOURCES
+// ══════════════════════════════
+async function rResources(){
+  const {data:res}=await sb.from('resources').select('*').order('created_at',{ascending:false});
+  const R=res||[];
+  const typeIcons={Notes:'📄','Past Paper':'📝',Worksheet:'📋',Reference:'📊'};
+  setPage(`
+<div class="sec-hd">
+  <div><h2>Resources</h2><p>Notes, past papers, worksheets — downloadable by students</p></div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap">
+    <select class="fc" style="width:auto;font-size:11px" id="rtf" onchange="filterRes()">
+      <option value="">All Topics</option><option value="ph">Physics</option><option value="ch">Chemistry</option><option value="bi">Biology</option><option value="sc">General</option>
+    </select>
+    <button class="btn btn-green btn-sm" onclick="openM('m-upload')">📤 Upload Resource</button>
+  </div>
+</div>
+${R.length===0?`<div class="empty"><div class="empty-icon">📂</div><div class="empty-text">No resources yet. Click Upload Resource.</div></div>`:`
+<div id="res-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+${R.map(r=>`
+<div class="card" data-topic="${r.topic}" style="transition:.2s" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+  <div style="display:flex;gap:10px;align-items:flex-start">
+    <div style="width:38px;height:38px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${typeIcons[r.type]||'📄'}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-weight:700;font-size:12px;margin-bottom:5px">${r.title}</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:4px">
+        <span class="badge ${TOPICS[r.topic]?.cls||'bon'}">${TOPICS[r.topic]?.label||r.topic}</span>
+        <span class="badge b${r.grade==='10'?'10':r.grade==='11'?'11':'on'}">${r.grade==='both'?'All':'Gr '+r.grade}</span>
+        <span style="font-size:10px;color:var(--dim)">${r.type}</span>
+      </div>
+      ${r.description?`<div style="font-size:10px;color:var(--muted)">${r.description}</div>`:''}
+      <div style="font-size:10px;color:var(--dim);margin-top:4px">${new Date(r.created_at).toLocaleDateString()}</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;margin-top:10px">
+    ${r.file_url?`<button class="btn btn-primary btn-sm" style="flex:1;justify-content:center" onclick="forceDownload('${r.file_url}','${r.title}')">📥 Download</button>`:'<span style="font-size:10px;color:var(--dim);padding:5px">No file attached</span>'}
+    <button class="btn btn-danger btn-sm" onclick="deleteRes('${r.id}',event)">🗑</button>
+  </div>
+</div>`).join('')}
+</div>`}
+`);
+}
+
+function filterRes(){
+  const v=document.getElementById('rtf').value;
+  document.querySelectorAll('#res-grid .card').forEach(c=>{
+    c.style.display=(!v||c.dataset.topic===v)?'':'none';
+  });
+}
+
+async function deleteRes(id,e){
+  e.stopPropagation();
+  if(!confirm('Delete this resource?'))return;
+  await sb.from('resources').delete().eq('id',id);
+  showToast('Deleted','ok');rResources();
+}
+
+async function uploadResource(){
+  const title=document.getElementById('up-title').value.trim();
+  const type=document.getElementById('up-type').value;
+  const topic=document.getElementById('up-topic').value;
+  const grade=document.getElementById('up-grade').value;
+  const desc=document.getElementById('up-desc').value.trim();
+  const file=document.getElementById('up-file').files[0];
+  if(!title){showToast('Title is required','err');return;}
+  const btn=document.getElementById('upload-btn');
+  btn.innerHTML='<span class="spinner"></span>Uploading...';btn.disabled=true;
+  let file_url=null;
+  if(file){
+    const ext=file.name.split('.').pop();
+    const path=`resources/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+    const {data:upData,error:upErr}=await sb.storage.from('sciencetopper').upload(path,file,{cacheControl:'3600',upsert:false});
+    if(upErr){showToast('File upload error: '+upErr.message,'err');btn.innerHTML='Upload';btn.disabled=false;return;}
+    const {data:urlData}=sb.storage.from('sciencetopper').getPublicUrl(path);
+    file_url=urlData?.publicUrl||null;
+  }
+  const {error}=await sb.from('resources').insert({title,type,topic,grade,description:desc,file_url,uploaded_by:currentUser.id});
+  btn.innerHTML='Upload';btn.disabled=false;
+  if(error){showToast('Error: '+error.message,'err');return;}
+  showToast('Resource uploaded!','ok');
+  closeM('m-upload');
+  document.getElementById('up-title').value='';
+  document.getElementById('up-desc').value='';
+  document.getElementById('up-file').value='';
+  rResources();
+}
+
+// ══════════════════════════════
+// STUDENT: HOME
+// ══════════════════════════════
+async function rSHome(){
+  const name=(userProfile?.full_name||'Student').split(' ')[0];
+  const grade=userProfile?.grade||'10';
+  const [{data:vids},{data:files},{data:qs},{data:myAttempts}]=await Promise.all([
+    sb.from('videos').select('id').or(`grade.eq.both,grade.eq.${grade}`),
+    sb.from('resources').select('id').or(`grade.eq.both,grade.eq.${grade}`),
+    sb.from('quizzes').select('quiz_set_name').or(`grade.eq.both,grade.eq.${grade}`),
+    sb.from('quiz_attempts').select('quiz_set_name,pct').eq('student_id',currentUser.id)
+  ]);
+  // Count unique quiz sets available
+  const availSets=new Set((qs||[]).map(q=>q.quiz_set_name).filter(Boolean));
+  const doneSets=new Set((myAttempts||[]).map(a=>a.quiz_set_name).filter(Boolean));
+  const pendingSets=availSets.size-doneSets.size;
+  const latestAttempt=myAttempts&&myAttempts.length>0?myAttempts[myAttempts.length-1]:null;
+
+  setPage(`
+<div class="portal-hero">
+  <div style="font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:3px">Welcome back, ${name}! 👋</div>
+  <div style="font-size:12px;color:#94a3b8;margin-top:2px">ScienceTopper · Sri Lanka Science</div>
+  <div style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(255,255,255,.07);border-radius:20px;font-size:11px;font-weight:600;margin-top:8px">🔬 Grade ${grade}</div>
+</div>
+
+<!-- Stats row -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+  <div class="statcard" style="text-align:center;padding:10px">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:3px">Videos</div>
+    <div style="font-size:18px;font-weight:800;color:var(--yt)">${(vids||[]).length}</div>
+  </div>
+  <div class="statcard" style="text-align:center;padding:10px">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:3px">Files</div>
+    <div style="font-size:18px;font-weight:800;color:var(--primary)">${(files||[]).length}</div>
+  </div>
+  <div class="statcard" style="text-align:center;padding:10px;${pendingSets>0?'border-color:rgba(245,158,11,.3)':'border-color:rgba(34,197,94,.3)'}">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:3px">Quizzes</div>
+    <div style="font-size:18px;font-weight:800;color:${pendingSets>0?'var(--amber)':'var(--green)'}">
+      ${doneSets.size}/${availSets.size}
+    </div>
+    <div style="font-size:9px;color:var(--muted)">${pendingSets>0?pendingSets+' pending':'all done'}</div>
+  </div>
+</div>
+
+${latestAttempt?`
+<div style="background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(79,156,249,.05));border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
+  <div style="font-size:28px">🏆</div>
+  <div style="flex:1">
+    <div style="font-size:11px;color:var(--muted);font-weight:600">Latest Quiz Score</div>
+    <div style="font-size:20px;font-weight:800;color:${mc(latestAttempt.pct)}">${latestAttempt.pct}%</div>
+    <div style="font-size:10px;color:var(--muted)">${latestAttempt.quiz_set_name||'Quiz'}</div>
+  </div>
+  <button class="btn btn-ghost btn-sm" onclick="navTo('s-ranking')" style="font-size:11px">🏆 Ranking →</button>
+</div>`:''}
+
+<!-- Navigation cards -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div class="card" onclick="navTo('s-videos')" style="cursor:pointer;text-align:center;padding:18px 10px;transition:.2s" onmouseenter="this.style.borderColor='var(--yt)'" onmouseleave="this.style.borderColor='var(--border)'">
+    <div style="font-size:26px;margin-bottom:6px">📺</div>
+    <div style="font-weight:700;font-size:12px">Videos</div>
+  </div>
+  <div class="card" onclick="navTo('s-resources')" style="cursor:pointer;text-align:center;padding:18px 10px;transition:.2s" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+    <div style="font-size:26px;margin-bottom:6px">📂</div>
+    <div style="font-weight:700;font-size:12px">Resources</div>
+  </div>
+  <div class="card" onclick="navTo('s-quiz')" style="cursor:pointer;text-align:center;padding:18px 10px;transition:.2s;${pendingSets>0?'border-color:rgba(245,158,11,.3)':''}" onmouseenter="this.style.borderColor='var(--green)'" onmouseleave="this.style.borderColor='${pendingSets>0?'rgba(245,158,11,.3)':'var(--border)'}'">
+    <div style="font-size:26px;margin-bottom:6px">📝</div>
+    <div style="font-weight:700;font-size:12px">Take Quiz</div>
+    ${pendingSets>0?`<div style="font-size:10px;color:var(--amber);font-weight:700;margin-top:3px">${pendingSets} quiz${pendingSets>1?'zes':''} waiting!</div>`:''}
+  </div>
+  <div class="card" onclick="navTo('s-quizhistory')" style="cursor:pointer;text-align:center;padding:18px 10px;transition:.2s" onmouseenter="this.style.borderColor='var(--amber)'" onmouseleave="this.style.borderColor='var(--border)'">
+    <div style="font-size:26px;margin-bottom:6px">📋</div>
+    <div style="font-weight:700;font-size:12px">Quiz History</div>
+  </div>
+</div>`);
+}
+
+// ══════════════════════════════
+// STUDENT: VIDEOS
+// ══════════════════════════════
+async function rSVideos(){
+  const grade=userProfile?.grade||'10';
+  const {data:vids}=await sb.from('videos').select('*').or(`grade.eq.both,grade.eq.${grade}`).order('created_at',{ascending:false});
+  const V=vids||[];
+  const selected=ytPlaying?V.find(v=>v.youtube_id===ytPlaying):(V[0]||null);
+  setPage(`
+<div class="sec-hd"><div><h2>📺 ${t('Videos')}</h2><p>Click any video — opens in YouTube to watch</p></div></div>
+<div class="yt-hero">
+  <div class="yt-header">
+    <svg width="28" height="20" viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 6l8 4-8 4V6z" fill="white"/></svg>
+    <div>
+      <div style="font-size:14px;font-weight:800">🔬 ScienceTopper</div>
+      <div style="font-size:11px;color:var(--muted)">Grade ${grade} · Science Videos</div>
+    </div>
+  </div>
+  <div style="padding:16px">
+    ${selected?`
+    <!-- Featured video — click opens YouTube directly -->
+    <a href="https://www.youtube.com/watch?v=${selected.youtube_id}" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin-bottom:14px">
+      <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;cursor:pointer">
+        <img src="https://img.youtube.com/vi/${selected.youtube_id}/hqdefault.jpg"
+             onerror="this.src='https://img.youtube.com/vi/${selected.youtube_id}/mqdefault.jpg'"
+             alt="${selected.title}" style="width:100%;display:block;opacity:.85">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.35)">
+          <div style="width:72px;height:50px;background:#ff0000;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;box-shadow:0 4px 20px rgba(255,0,0,.5)">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);text-align:center;padding:0 12px">${selected.title}</div>
+          <div style="margin-top:8px;display:inline-flex;align-items:center;gap:8px;background:#ff0000;color:#fff;font-weight:700;font-size:12px;padding:8px 18px;border-radius:8px">
+            <svg width="16" height="11" viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#fff"/><path d="M11 6l8 4-8 4V6z" fill="#ff0000"/></svg>
+            Watch on YouTube
+          </div>
+        </div>
+      </div>
+    </a>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <span class="badge ${TOPICS[selected.topic]?.cls||'bon'}">${TOPICS[selected.topic]?.label||selected.topic}</span>
+      <a href="https://www.youtube.com/watch?v=${selected.youtube_id}" target="_blank" rel="noopener" class="btn btn-yt btn-sm" style="text-decoration:none;margin-left:auto">
+        <svg width="16" height="11" viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#fff"/><path d="M11 6l8 4-8 4V6z" fill="#ff0000"/></svg>
+        Open in YouTube
+      </a>
+    </div>`:`<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">${t('NoVideos')}</div>`}
+    ${V.length>0?`
+    <div class="yt-grid">
+      ${V.map(v=>`
+      <div class="yt-thumb${selected&&selected.youtube_id===v.youtube_id?' playing':''}" onclick="ytSelectS('${v.youtube_id}')">
+        <div class="yt-thumb-img">
+          <img src="https://img.youtube.com/vi/${v.youtube_id}/mqdefault.jpg" alt="${v.title}" loading="lazy">
+          <div class="yt-thumb-overlay">
+            <svg width="32" height="32" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="rgba(0,0,0,.5)"/><path d="M9 7l9 5-9 5V7z" fill="rgba(255,255,255,.9)"/></svg>
+          </div>
+        </div>
+        <div class="yt-thumb-info">
+          <div class="yt-thumb-title">${v.title}</div>
+          <div class="yt-thumb-meta" style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+            <span class="badge ${TOPICS[v.topic]?.cls||'bon'}" style="font-size:9px">${TOPICS[v.topic]?.label||v.topic}</span>
+            <a href="https://www.youtube.com/watch?v=${v.youtube_id}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;font-size:9px;color:#ff6666;font-weight:700;text-decoration:none">▶ YouTube</a>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>`:''}
+  </div>
+</div>`);
+}
+
+// ══════════════════════════════
+// STUDENT: FILES
+// ══════════════════════════════
+async function rSFiles(){
+  const grade=userProfile?.grade||'10';
+  const {data:res}=await sb.from('resources').select('*').or(`grade.eq.both,grade.eq.${grade}`).order('created_at',{ascending:false});
+  const R=res||[];
+  const typeIcons={Notes:'📄','Past Paper':'📝',Worksheet:'📋',Reference:'📊'};
+  const types=[...new Set(R.map(r=>r.type))];
+  setPage(`
+<div class="sec-hd"><div><h2>${t('Resources')}</h2><p>${t('TapDownload')}</p></div></div>
+${R.length===0?`<div class="empty"><div class="empty-icon">📂</div><div class="empty-text">${t('NoFiles')}</div></div>`
+:types.map(tp=>`
+<div style="font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 7px">${tp}</div>
+${R.filter(r=>r.type===tp).map(r=>`
+<div class="fcard">
+  <div class="ficon">${typeIcons[r.type]||'📄'}</div>
+  <div style="flex:1;min-width:0">
+    <div class="fname">${r.title}</div>
+    <div class="fmeta" style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:3px">
+      <span class="badge ${TOPICS[r.topic]?.cls||'bon'}">${TOPICS[r.topic]?.label||r.topic}</span>
+      ${r.description?`<span>${r.description}</span>`:''}
+    </div>
+  </div>
+  ${r.file_url?`<button class="btn btn-primary btn-sm" onclick="forceDownload('${r.file_url}','${r.title}')">📥 Download</button>`:''}
+</div>`).join('')}`).join('')}
+`);
+}
+
+// ══════════════════════════════════════════════
+// STUDENT: QUIZ  (one attempt only, instant feedback, saves score)
+// ══════════════════════════════════════════════
+async function rSQuiz(){
+  const grade=userProfile?.grade||'10';
+
+  // If actively taking a quiz — fetch LIVE questions for THIS set only
+  if(quizSt.activeSet){
+    const {data:liveQs}=await sb.from('quizzes').select('*')
+      .or(`grade.eq.both,grade.eq.${grade}`)
+      .eq('quiz_set_name',quizSt.activeSet)
+      .order('created_at');
+    const setQs=liveQs||[];
+    const liveTotal=setQs.length;
+
+    // Safety: if set was deleted or has no questions
+    if(!liveTotal){
+      quizSt={idx:0,sel:-1,done:false,score:0,ans:[],answered:false,activeSet:null,liveTotal:null};
+      showToast('Quiz set no longer available','err');
+      rSQuiz(); return;
+    }
+
+    // Quiz just finished — save and show result
+    if(quizSt.done){
+      const finalScore=quizSt.score;
+      const finalTotal=setQs.length;
+      const pct=Math.round((finalScore/finalTotal)*100);
+      // Save attempt
+      await sb.from('quiz_attempts').insert({
+        student_id:currentUser.id,
+        quiz_set_name:quizSt.activeSet,
+        score:finalScore,
+        total:finalTotal,
+        pct,
+        answers:quizSt.ans,
+        completed_at:new Date().toISOString(),
+        grade:grade
+      });
+      // Update profile quiz_scores
+      const scores=[...(userProfile.quiz_scores||[]),{
+        set:quizSt.activeSet,score:finalScore,
+        total:finalTotal,pct,date:new Date().toISOString()
+      }];
+      await sb.from('profiles').update({quiz_scores:scores}).eq('id',currentUser.id);
+      userProfile.quiz_scores=scores;
+      // Save for review then reset
+      const savedSet=quizSt.activeSet;
+      const savedAns=[...quizSt.ans];
+      quizSt={idx:0,sel:-1,done:false,score:0,ans:[],answered:false,activeSet:null,liveTotal:null};
+      // Show result page
+      setPage(`
+<div style="text-align:center;padding:20px 0 10px">
+  <div style="font-size:56px;margin-bottom:12px">${pct>=70?'🏆':pct>=50?'👍':'📚'}</div>
+  <div style="font-size:13px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">Quiz Complete!</div>
+  <div style="font-size:48px;font-weight:800;line-height:1;margin-bottom:6px">${pct}<span style="font-size:24px;color:var(--muted)">%</span></div>
+  <div style="font-size:20px;font-weight:800;color:${pct>=70?'var(--green)':pct>=50?'var(--amber)':'var(--red)'};margin-bottom:6px">
+    ${pct>=70?'Excellent! 🎉':pct>=50?'Good Job! 👍':'Keep Practising! 💪'}
+  </div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">${savedSet}</div>
+</div>
+<div style="display:flex;gap:10px;justify-content:center;margin-bottom:24px;flex-wrap:wrap">
+  <button class="btn btn-primary" onclick="navTo('s-ranking')" style="padding:11px 20px">🏆 See Ranking</button>
+  <button class="btn btn-ghost" onclick="navTo('s-quizhistory')" style="padding:11px 20px">📋 Quiz History</button>
+</div>
+<div class="card">
+  <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">📋 Answer Review — ${savedSet}</div>
+  ${setQs.map((q,i)=>{
+    const chosen=savedAns[i]??-1;
+    const correct=q.correct_answer;
+    const isRight=chosen===correct;
+    return `
+    <div style="padding:12px;background:${isRight?'rgba(34,197,94,.07)':'rgba(239,68,68,.07)'};border:1px solid ${isRight?'rgba(34,197,94,.2)':'rgba(239,68,68,.2)'};border-radius:10px;margin-bottom:8px">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <span style="font-size:14px;flex-shrink:0">${isRight?'✅':'❌'}</span>
+        <div style="font-weight:700;font-size:12px;line-height:1.5;flex:1">${q.question}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+        ${(q.options||[]).map((o,j)=>{
+          let bg='rgba(255,255,255,.03)',border='rgba(255,255,255,.06)',col='var(--muted)',suf='';
+          if(j===correct){bg='rgba(34,197,94,.15)';border='rgba(34,197,94,.4)';col='var(--green)';suf='<span style="font-size:9px;font-weight:800;color:var(--green)"> ✓</span>';}
+          if(j===chosen&&!isRight){bg='rgba(239,68,68,.15)';border='rgba(239,68,68,.4)';col='#fca5a5';suf='<span style="font-size:9px;font-weight:800;color:#fca5a5"> ✗</span>';}
+          return `<div style="padding:5px 8px;border-radius:6px;font-size:11px;font-weight:500;background:${bg};border:1px solid ${border};color:${col}">${['A','B','C','D'][j]}. ${o}${suf}</div>`;
+        }).join('')}
+      </div>
+      ${!isRight?`<div style="margin-top:6px;font-size:11px;color:var(--green);font-weight:700">💡 Correct: ${(setQs[i].options||[])[correct]}</div>`:''}
+    </div>`;
+  }).join('')}
+</div>`);
+      return;
+    }
+
+    // Active question — use live question list
+    const q=setQs[quizSt.idx];
+    if(!q){
+      // Index out of range (questions removed mid-quiz?) — go back to selection
+      quizSt={idx:0,sel:-1,done:false,score:0,ans:[],answered:false,activeSet:null,liveTotal:null};
+      rSQuiz(); return;
+    }
+    const OPTS=['A','B','C','D'];
+    const answered=quizSt.answered;
+    const isCorrect=quizSt.sel===q.correct_answer;
+    setPage(`
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px">
+  <div>
+    <div style="font-size:13px;font-weight:800">${quizSt.activeSet}</div>
+    <div style="font-size:11px;color:var(--muted)">Question ${quizSt.idx+1} of ${liveTotal}</div>
+  </div>
+  <span class="badge ${(TOPICS[q.topic]?.cls)||'bon'}">${TOPICS[q.topic]?.label||q.topic}</span>
+</div>
+<div class="prog" style="margin-bottom:14px;height:6px">
+  <div class="prog-fill" style="width:${((quizSt.idx)/liveTotal)*100}%;background:var(--primary)"></div>
+</div>
+<div class="card" style="margin-bottom:12px">
+  <div style="font-weight:700;font-size:15px;line-height:1.6">${q.question}</div>
+</div>
+${OPTS.map((label,i)=>{
+  let border='var(--border2)',bg='transparent',col='var(--text)',circBg='transparent',circBorder='var(--border2)',circCol='var(--muted)',badge='';
+  if(answered){
+    if(i===q.correct_answer){border='rgba(34,197,94,.5)';bg='rgba(34,197,94,.1)';col='var(--green)';circBg='var(--green)';circBorder='var(--green)';circCol='#fff';badge='<span style="margin-left:auto;font-size:11px;font-weight:800;color:var(--green);background:rgba(34,197,94,.15);padding:2px 8px;border-radius:20px">✓ Correct</span>';}
+    else if(i===quizSt.sel){border='rgba(239,68,68,.5)';bg='rgba(239,68,68,.1)';col='#fca5a5';circBg='var(--red)';circBorder='var(--red)';circCol='#fff';badge='<span style="margin-left:auto;font-size:11px;font-weight:800;color:#fca5a5;background:rgba(239,68,68,.15);padding:2px 8px;border-radius:20px">✗ Wrong</span>';}
+    else{border='rgba(255,255,255,.06)';col='var(--dim)';circBorder='rgba(255,255,255,.1)';circCol='var(--dim)';}
+  }else if(quizSt.sel===i){border='var(--primary)';bg='var(--pglow)';circBg='var(--primary)';circBorder='var(--primary)';circCol='#fff';}
+  return `<div onclick="${answered?'':'quizSelect('+i+')'}" style="display:flex;align-items:center;gap:11px;padding:12px 14px;border:1.5px solid ${border};border-radius:10px;background:${bg};margin-bottom:8px;cursor:${answered?'default':'pointer'};transition:.15s">
+    <div style="width:26px;height:26px;border-radius:50%;border:2px solid ${circBorder};background:${circBg};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:${circCol};flex-shrink:0">${label}</div>
+    <span style="flex:1;font-size:13px;font-weight:500;color:${col}">${(q.options||[])[i]}</span>
+    ${badge}
+  </div>`;
+}).join('')}
+${answered?`
+<div style="padding:12px 14px;border-radius:10px;background:${isCorrect?'rgba(34,197,94,.1)':'rgba(239,68,68,.1)'};border:1px solid ${isCorrect?'rgba(34,197,94,.3)':'rgba(239,68,68,.3)'};margin-top:4px">
+  <div style="font-size:13px;font-weight:800;color:${isCorrect?'var(--green)':'var(--red)'}">
+    ${isCorrect?'✅ Correct!':'❌ Wrong! Correct answer: <span style="color:var(--green)">'+(q.options||[])[q.correct_answer]+'</span>'}
+  </div>
+</div>
+<div style="margin-top:12px;display:flex;justify-content:flex-end">
+  <button class="btn btn-primary" onclick="quizNext(${liveTotal})" style="padding:10px 24px">
+    ${quizSt.idx===liveTotal-1?'🏁 Submit Quiz':'Next →'}
+  </button>
+</div>`:`
+<div style="margin-top:4px;display:flex;justify-content:flex-end">
+  <button class="btn btn-primary" disabled style="opacity:.3;padding:10px 24px">Select an answer first</button>
+</div>`}`);
+    return;
+  }
+
+  // ── QUIZ SET SELECTION SCREEN — always fetch fresh ──
+  const {data:qs}=await sb.from('quizzes').select('*')
+    .or(`grade.eq.both,grade.eq.${grade}`)
+    .order('created_at');
+  const Q=qs||[];
+
+  if(!Q.length){
+    setPage(`<div class="empty"><div class="empty-icon">📝</div><div class="empty-text">No quiz questions for your grade yet. Check back soon!</div></div>`);
+    return;
+  }
+
+  // Group into sets with LIVE counts
+  const sets={};
+  Q.forEach(q=>{
+    const s=q.quiz_set_name||'Quiz';
+    if(!sets[s])sets[s]={questions:[],created_at:q.created_at};
+    sets[s].questions.push(q);
+  });
+  const setNames=Object.keys(sets);
+
+  // Fetch student's completed attempts
+  const {data:attempts}=await sb.from('quiz_attempts')
+    .select('*').eq('student_id',currentUser.id);
+  const myAttempts=attempts||[];
+  // A set is only "done" if the saved total matches the CURRENT live question count
+  const attemptMap={};
+  myAttempts.forEach(a=>{ attemptMap[a.quiz_set_name]=a; });
+  const attemptedSets=new Set(
+    myAttempts
+      .filter(a=>{
+        const liveCount=sets[a.quiz_set_name]?.questions?.length;
+        // Mark done only if attempt total matches current live question count
+        return liveCount && a.total >= liveCount;
+      })
+      .map(a=>a.quiz_set_name)
+  );
+
+  // ── QUIZ SET SELECTION SCREEN ──
+  setPage(`
+<div class="sec-hd"><div><h2>📝 Quizzes</h2><p>Select a quiz to attempt · Completed only when all questions answered</p></div></div>
+${setNames.length===0?`<div class="empty"><div class="empty-icon">📝</div><div class="empty-text">No quizzes available yet. Check back soon!</div></div>`:`
+<div style="display:grid;gap:10px">
+${setNames.map(setName=>{
+  const set=sets[setName];
+  const done=attemptedSets.has(setName);
+  const myAttempt=attemptMap[setName];
+  const liveCount=set.questions.length;
+  const setDate=new Date(set.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  // Check if teacher added new questions since student's last attempt
+  const hasNewQs=myAttempt && myAttempt.total < liveCount;
+  return `
+  <div class="card" style="border-color:${done?'rgba(34,197,94,.25)':hasNewQs?'rgba(245,158,11,.35)':'var(--border)'}">
+    <div style="display:flex;align-items:flex-start;gap:12px">
+      <div style="width:44px;height:44px;border-radius:10px;background:${done?'var(--gl)':hasNewQs?'var(--al)':'var(--pglow)'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${done?'✅':hasNewQs?'🆕':'📝'}</div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:14px;margin-bottom:3px">${setName}</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">📅 Set on ${setDate} · ${liveCount} questions</div>
+        ${hasNewQs?`<div style="font-size:11px;color:var(--amber);font-weight:700;margin-bottom:6px">🆕 New questions added! Retake to complete all ${liveCount} questions.</div>`:''}
+        ${done&&myAttempt&&!hasNewQs?`
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:var(--gl);border-radius:6px;font-size:12px;font-weight:700;color:var(--green)">
+          ✅ Completed — Score: ${myAttempt.pct}% (${myAttempt.score}/${myAttempt.total})
+        </div>
+        <div style="font-size:10px;color:var(--dim);margin-top:4px">Taken on ${new Date(myAttempt.completed_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+        `:`
+        <button class="btn btn-primary btn-sm" onclick="startQuizSet(this.dataset.set)" data-set="${setName}">
+          ${hasNewQs?'Retake with New Questions →':'Start Quiz →'}
+        </button>`}
+      </div>
+    </div>
+  </div>`;
+}).join('')}
+</div>`}`);
+}
+function startQuizSet(setName){
+  // Full clean reset — ensures no stale state from a previous attempt
+  quizSt={idx:0,sel:-1,done:false,score:0,ans:[],answered:false,activeSet:setName,liveTotal:null};
+  rSQuiz();
+}
+
+
+function quizSelect(i){
+  if(quizSt.answered) return;
+  quizSt.sel=i;
+  quizSt.answered=true;
+  rSQuiz();
+}
+async function rSQuizFast(){
+  // Simply re-render the quiz — clean and correct
+  rSQuiz();
+}
+async function quizNext(total){
+  const grade=userProfile?.grade||'10';
+  // Always fetch fresh questions so newly added Qs are included
+  const {data:qs}=await sb.from('quizzes').select('*')
+    .or(`grade.eq.both,grade.eq.${grade}`)
+    .eq('quiz_set_name',quizSt.activeSet)
+    .order('created_at');
+  const Q=qs||[];
+  // Store current answer
+  quizSt.ans[quizSt.idx]=quizSt.sel;
+  if(quizSt.sel===Q[quizSt.idx].correct_answer) quizSt.score++;
+  quizSt.sel=-1;
+  quizSt.answered=false;
+  // Use LIVE question count — not the stale param passed in
+  const liveTotal=Q.length;
+  quizSt.liveTotal=liveTotal;
+  if(quizSt.idx < liveTotal-1){
+    quizSt.idx++;
+  } else {
+    // Only mark done when student has answered ALL live questions
+    quizSt.done=true;
+  }
+  rSQuiz();
+}
+
+// ══════════════════════════════
+// STUDENT: QUIZ HISTORY
+// ══════════════════════════════
+async function rSQuizHistory(){
+  const grade=userProfile?.grade||'10';
+  const [{data:attempts},{data:allQs}]=await Promise.all([
+    sb.from('quiz_attempts').select('*').eq('student_id',currentUser.id).order('completed_at',{ascending:false}),
+    sb.from('quizzes').select('*').or(`grade.eq.both,grade.eq.${grade}`).order('created_at')
+  ]);
+  const A=attempts||[], Q=allQs||[];
+
+  // Group questions by set
+  const qSets={};
+  Q.forEach(q=>{
+    const s=q.quiz_set_name||'Quiz';
+    if(!qSets[s])qSets[s]=[];
+    qSets[s].push(q);
+  });
+
+  // All available sets
+  const allSets=Object.keys(qSets);
+  const attemptMap={};
+  A.forEach(a=>{ attemptMap[a.quiz_set_name]=a; });
+
+  const histBody = allSets.length===0
+    ? '<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">No quizzes available yet.</div></div>'
+    : `<div style="display:grid;gap:12px">
+${allSets.map(setName=>{
+  const setQs=qSets[setName]||[];
+  const attempt=attemptMap[setName];
+  const setDate=new Date(setQs[0].created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const savedAns=attempt?.answers||[];
+
+  return `
+  <div class="card">
+    <!-- Set header -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+      <div style="width:42px;height:42px;border-radius:10px;background:${attempt?'var(--gl)':'var(--al)'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${attempt?'✅':'⏳'}</div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:14px">${setName}</div>
+        <div style="font-size:11px;color:var(--muted)">📅 Set on ${setDate} · ${setQs.length} questions</div>
+      </div>
+      ${attempt?`
+      <div style="text-align:right">
+        <div style="font-size:22px;font-weight:800;color:${mc(attempt.pct)}">${attempt.pct}%</div>
+        <div style="font-size:10px;color:var(--muted)">${attempt.score}/${attempt.total} correct</div>
+        <div style="font-size:10px;color:var(--dim)">Taken: ${new Date(attempt.completed_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>`:`
+      <div style="padding:5px 12px;background:var(--al);border-radius:8px;font-size:11px;font-weight:700;color:var(--amber)">⏳ Not yet attempted</div>`}
+    </div>
+
+    ${attempt?`
+    <!-- Answer review for completed sets -->
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Answer Review</div>
+      ${setQs.map((q,i)=>{
+        const chosen=savedAns[i]??-1;
+        const correct=q.correct_answer;
+        const isRight=chosen===correct;
+        return `
+        <div style="padding:10px;background:${isRight?'rgba(34,197,94,.06)':'rgba(239,68,68,.06)'};border:1px solid ${isRight?'rgba(34,197,94,.15)':'rgba(239,68,68,.15)'};border-radius:8px;margin-bottom:6px">
+          <div style="display:flex;gap:7px;margin-bottom:7px">
+            <span style="flex-shrink:0">${isRight?'✅':'❌'}</span>
+            <div style="font-weight:600;font-size:12px;line-height:1.5;flex:1">${q.question}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+            ${(q.options||[]).map((o,j)=>{
+              let bg='rgba(255,255,255,.02)',bd='rgba(255,255,255,.05)',col='var(--dim)',suf='';
+              if(j===correct){bg='rgba(34,197,94,.12)';bd='rgba(34,197,94,.3)';col='var(--green)';suf=' ✓';}
+              if(j===chosen&&!isRight){bg='rgba(239,68,68,.12)';bd='rgba(239,68,68,.3)';col='#fca5a5';suf=' ✗';}
+              return `<div style="padding:4px 7px;border-radius:5px;font-size:10px;font-weight:500;background:${bg};border:1px solid ${bd};color:${col}">${['A','B','C','D'][j]}. ${o}${suf}</div>`;
+            }).join('')}
+          </div>
+          ${!isRight?`<div style="margin-top:5px;font-size:10px;color:var(--green);font-weight:700">💡 Correct: ${(setQs[i].options||[])[correct]}</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>`:`
+    <!-- Not attempted — show questions without answers -->
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:12px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px">You haven't taken this quiz yet.</div>
+      <button class="btn btn-primary btn-sm" onclick="navTo('s-quiz')">Go to Quizzes →</button>
+    </div>`}
+  </div>`;
+}).join('')}
+</div>`;
+  setPage(`
+<div class="sec-hd"><div><h2>📋 Quiz History</h2><p>All quiz sets — your results and answer reviews</p></div></div>
+${histBody}
+`);
+}
+
+// Keep rSMarks as alias for quiz history (backward compat)
+async function rSMarks(){ return rSQuizHistory(); }
+
+// ══════════════════════════════
+// STUDENT: TOP RANKING
+// ══════════════════════════════
+async function rSRanking(){
+  const [{data:students},{data:attempts},{data:allQuizSets}] = await Promise.all([
+    sb.from('profiles').select('id,full_name,grade,current_term').eq('role','student').order('full_name'),
+    sb.from('quiz_attempts').select('student_id,score,total,pct,completed_at,quiz_set_name'),
+    sb.from('quizzes').select('quiz_set_name')
+  ]);
+  const S=students||[], A=attempts||[];
+  // Total unique quiz sets available in the system
+  const totalSets = new Set((allQuizSets||[]).map(q=>q.quiz_set_name).filter(Boolean)).size || 1;
+
+  const ranked = S.map(s=>{
+    const myAttempts = A.filter(a=>a.student_id===s.id);
+    const avgQuiz = myAttempts.length ? Math.round(myAttempts.reduce((x,a)=>x+(a.pct||0),0)/myAttempts.length) : null;
+    const termMark = s.current_term||0;
+    const overall = avgQuiz!==null ? avgQuiz : termMark;
+    // Count unique quiz sets this student completed
+    const uniqueSets = new Set(myAttempts.map(a=>a.quiz_set_name).filter(Boolean));
+    const quizCount = uniqueSets.size;
+    // Latest completed_at across all their attempts (when they finished their last quiz)
+    const lastDone = myAttempts.length
+      ? Math.max(...myAttempts.map(a=>a.completed_at?new Date(a.completed_at).getTime():0))
+      : Infinity;
+    return {...s, avgQuiz, termMark, overall, quizCount, totalSets, lastDone};
+  }).sort((a,b)=>{
+    // 1st: Higher overall score wins
+    // 1st priority: more quizzes completed wins always
+    if(b.quizCount !== a.quizCount) return b.quizCount - a.quizCount;
+    // 2nd priority: higher score wins
+    if(b.overall !== a.overall) return b.overall - a.overall;
+    // 3rd priority: finished quizzes faster wins
+    return a.lastDone - b.lastDone;
+  });
+  const myPos = ranked.findIndex(s=>s.id===currentUser.id);
+  const myData = ranked[myPos];
+  const medals=['🥇','🥈','🥉'];
+  const mColors=['#FFD700','#C0C0C0','#CD7F32'];
+  setPage(`
+<div class="sec-hd"><div><h2>🏆 Class Ranking</h2><p>See where you stand · Updated live</p></div></div>
+${myData?`
+<div style="background:linear-gradient(135deg,rgba(79,156,249,.12),rgba(167,139,250,.08));border:1px solid rgba(79,156,249,.25);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+  <div style="font-size:${myPos<3?'36':'28'}px">${myPos<3?medals[myPos]:`#${myPos+1}`}</div>
+  <div style="flex:1">
+    <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Your Position</div>
+    <div style="font-size:17px;font-weight:800">Rank #${myPos+1} out of ${ranked.length}</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:2px">Quiz Score: <strong style="color:var(--primary)">${myData.overall}%</strong> · ${myData.avgQuiz!==null?'Scored '+myData.avgQuiz+'%':'Quiz not yet taken'}</div>
+  </div>
+  ${myPos>0?`<div style="text-align:right;font-size:11px;color:var(--muted)"><div>Gap to #${myPos}</div><div style="font-size:16px;font-weight:800;color:var(--amber)">-${ranked[myPos-1].overall-myData.overall}%</div></div>`:'<div style="font-size:13px;font-weight:800;color:#FFD700">👑 Top of class!</div>'}
+</div>`:''}
+${ranked.length===0?`<div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">No ranking data yet.</div></div>`:
+`${ranked.length>=2?`
+<div style="display:flex;justify-content:center;align-items:flex-end;gap:10px;margin-bottom:16px;padding:8px 0">
+  <div style="text-align:center;flex:1;max-width:140px">
+    <div style="font-size:26px;margin-bottom:3px">🥈</div>
+    <div style="background:var(--card);border:1px solid rgba(192,192,192,.25);border-radius:10px;padding:10px 6px;height:84px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${ranked[1]?.id===currentUser.id?'var(--primary)':'var(--text)'}">${(ranked[1]?.full_name||'').split(' ')[0]}${ranked[1]?.id===currentUser.id?' (You)':''}</div>
+      <div style="font-size:18px;font-weight:800;color:#C0C0C0">${ranked[1]?.overall||0}%</div>
+    </div>
+  </div>
+  <div style="text-align:center;flex:1;max-width:160px">
+    <div style="font-size:34px;margin-bottom:3px">🥇</div>
+    <div style="background:var(--card);border:1.5px solid rgba(255,215,0,.35);border-radius:12px;padding:12px 8px;height:104px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 0 18px rgba(255,215,0,.07)">
+      <div style="font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${ranked[0]?.id===currentUser.id?'var(--primary)':'var(--text)'}">${(ranked[0]?.full_name||'').split(' ')[0]}${ranked[0]?.id===currentUser.id?' (You)':''}</div>
+      <div style="font-size:24px;font-weight:800;color:#FFD700">${ranked[0]?.overall||0}%</div>
+    </div>
+  </div>
+  ${ranked.length>=3?`<div style="text-align:center;flex:1;max-width:140px">
+    <div style="font-size:24px;margin-bottom:3px">🥉</div>
+    <div style="background:var(--card);border:1px solid rgba(205,127,50,.25);border-radius:10px;padding:10px 6px;height:74px;display:flex;flex-direction:column;justify-content:center">
+      <div style="font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${ranked[2]?.id===currentUser.id?'var(--primary)':'var(--text)'}">${(ranked[2]?.full_name||'').split(' ')[0]}${ranked[2]?.id===currentUser.id?' (You)':''}</div>
+      <div style="font-size:16px;font-weight:800;color:#CD7F32">${ranked[2]?.overall||0}%</div>
+    </div>
+  </div>`:''}
+</div>`:''}
+<div class="card" style="overflow-x:auto">
+<table class="tbl">
+  <thead><tr><th>Rank</th><th>Student</th><th>Grade</th><th>Quizzes Done</th><th>Avg Score</th><th>Overall</th></tr></thead>
+  <tbody>
+  ${ranked.map((s,i)=>{
+    const isMe=s.id===currentUser.id;
+    const allDone = s.quizCount >= s.totalSets && s.totalSets > 0;
+    return `<tr style="${isMe?'background:rgba(79,156,249,.06);':''}${i<3?'background:rgba(255,215,0,.015)':''}">
+      <td style="text-align:center;font-size:${i<3?'18':'12'}px;font-weight:700;color:${i<3?mColors[i]:'var(--muted)'}">${i<3?medals[i]:`#${i+1}`}</td>
+      <td style="font-weight:${isMe?'800':'600'};color:${isMe?'var(--primary)':'var(--text)'}">
+        ${s.full_name}${isMe?' <span style="font-size:9px;background:var(--pglow);color:var(--primary);padding:1px 5px;border-radius:8px;font-weight:700">You</span>':''}
+      </td>
+      <td><span class="badge b${s.grade}">Gr ${s.grade}</span></td>
+      <td style="font-weight:700;color:${allDone?'var(--green)':s.quizCount>0?'var(--amber)':'var(--dim)'}">
+        ${s.quizCount}/${s.totalSets} ${allDone?'✅':''}
+      </td>
+      <td style="font-weight:600;color:${s.avgQuiz!==null?mc(s.avgQuiz):'var(--dim)'}">${s.avgQuiz!==null?s.avgQuiz+'%':'—'}</td>
+      <td><div style="display:flex;align-items:center;gap:7px">
+        <div style="flex:1;min-width:50px"><div class="prog"><div class="prog-fill" style="width:${s.overall}%;background:${i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':isMe?'var(--primary)':'rgba(255,255,255,.2)'}"></div></div></div>
+        <span style="font-weight:800;font-size:13px;min-width:36px;color:${i<3?mColors[i]:isMe?'var(--primary)':'var(--text)'}">${s.overall}%</span>
+      </div></td>
+    </tr>`;
+  }).join('')}
+  </tbody>
+</table>
+</div>
+<div style="margin-top:10px;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--muted)">
+  📊 Ranked by <strong style="color:var(--green)">Quizzes Completed</strong> first · then <strong style="color:var(--text)">Score</strong> · then <strong style="color:var(--amber)">Speed</strong>
+</div>`}
+`);
+}
+
+</script>
+</body>
+</html>
